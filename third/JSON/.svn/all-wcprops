@@ -1,0 +1,173 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON
+END
+SBJsonWriter.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonWriter.h
+END
+SBJsonStreamParserAccumulator.m
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParserAccumulator.m
+END
+SBJsonStreamParser.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParser.m
+END
+SBJsonStreamParserAdapter.m
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParserAdapter.m
+END
+SBJsonStreamParserState.m
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParserState.m
+END
+SBJson.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJson.h
+END
+SBJsonWriter.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonWriter.m
+END
+NSString+SBJSON.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/NSString+SBJSON.h
+END
+NSObject+SBJson.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/NSObject+SBJson.h
+END
+NSString+SBJSON.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/NSString+SBJSON.m
+END
+NSObject+SBJson.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/NSObject+SBJson.m
+END
+SBJsonStreamWriter.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamWriter.h
+END
+SBJsonStreamWriterAccumulator.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamWriterAccumulator.h
+END
+SBJsonStreamWriterState.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamWriterState.h
+END
+JSON.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/JSON.h
+END
+SBJsonParser.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonParser.h
+END
+SBJsonStreamWriter.m
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamWriter.m
+END
+SBJsonStreamWriterAccumulator.m
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamWriterAccumulator.m
+END
+SBJsonStreamWriterState.m
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamWriterState.m
+END
+SBJsonParser.m
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonParser.m
+END
+SBJsonUTF8Stream.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonUTF8Stream.h
+END
+SBJsonTokeniser.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonTokeniser.h
+END
+SBJsonUTF8Stream.m
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonUTF8Stream.m
+END
+SBJsonStreamParserAccumulator.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParserAccumulator.h
+END
+SBJsonStreamParser.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParser.h
+END
+SBJsonTokeniser.m
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonTokeniser.m
+END
+SBJsonStreamParserState.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParserState.h
+END
+SBJsonStreamParserAdapter.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/platform-src/!svn/ver/1689/product/ios/CityAssistance/service/Geocoder/JSON/SBJsonStreamParserAdapter.h
+END
