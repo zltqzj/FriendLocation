@@ -97,7 +97,13 @@ static int zoom_level = 1;
     
     [self addAnnos]; // 添加所有标注
     [ProgressHUD show:@"正在刷新所有人的位置……"];
-    
+    NSMutableDictionary* dict2 = [[NSMutableDictionary alloc] initWithCapacity:10];
+    if (_list.count!=0) {
+        [dict2 setObject:_list forKey:@"list"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFriends" object:self userInfo:dict2];
+    }
+    else
+        [self refresh];
     
 }
 
@@ -156,9 +162,6 @@ static int zoom_level = 1;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAnno:) name:@"remove" object:nil];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addAnno:) name:@"add" object:nil];

@@ -109,21 +109,21 @@
     [_hideMyLocation setCompletionBlock:^{
         [ProgressHUD dismiss];
         NSString* response = [_hideMyLocation responseString];
-        if ([response isEqualToString:@"1"]) {
-            if ([_hiddenMyselfButton.title isEqualToString:@"隐藏我"]) {
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"已经隐藏我的位置" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        if ([response isEqualToString:@"1"]) { // 说明现在是打开状态
+            if ([_hiddenMyselfButton.title isEqualToString:@"打开我"]) {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"已经打开我的位置" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alert show];
-                [user setValue:@"打开我" forKey:per_key];
-                [_hiddenMyselfButton setTitle:@"打开我"];
+                [user setValue:@"隐藏我" forKey:per_key];
+                [_hiddenMyselfButton setTitle:@"隐藏我"];
                 
                 
                 // 给列表一个通知，未完待续
             }
             else{
-                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"已经打开我的位置" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"已经隐藏我的位置" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alert show];
-                [user setValue:@"隐藏我" forKey:per_key];
-                [_hiddenMyselfButton setTitle:@"隐藏我"];
+                [user setValue:@"打开我" forKey:per_key];
+                [_hiddenMyselfButton setTitle:@"打开我"];
                 // 给列表一个通知，未完待续
             }
             UIStoryboard* sbd = nil;
@@ -133,8 +133,9 @@
             if (IS_IPAD) {
                 sbd = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
             }
-            ViewController* v = [sbd instantiateViewControllerWithIdentifier:@"map"];
-            [v refresh];
+            
+            
+            
             
         }
         else{
@@ -149,10 +150,11 @@
                 [_searchMyLocationState startAsynchronous];
                 [_searchMyLocationState setCompletionBlock:^{
                     NSLog(@"查询自己状态返回值：%@",[_searchMyLocationState responseString]);
-                    if ([[_searchMyLocationState responseString] isEqualToString:@"0"]) { // 说明现在是不可见状态
-                        [_hiddenMyselfButton setTitle:@"打开我"];
+                    if ([[_searchMyLocationState responseString] isEqualToString:@"1"]) { // 说明现在是不可见状态
+                         [_hiddenMyselfButton setTitle:@"隐藏我"];
                     }else{// 说明现在是可见状态
-                        [_hiddenMyselfButton setTitle:@"隐藏我"];
+                      
+                        [_hiddenMyselfButton setTitle:@"打开我"];
 
                     }
                 }];

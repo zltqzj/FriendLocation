@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BD4C7736-1DD4-4335-814B-12FB3860663F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BaiduMapTest</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1CE90A44-E559-4F63-8497-4B39CE6C540B</key>
+		<string>https://github.com/zltqzj/FriendLocation.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BaiduMapTest.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1CE90A44-E559-4F63-8497-4B39CE6C540B</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/zltqzj/FriendLocation.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1CE90A44-E559-4F63-8497-4B39CE6C540B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1CE90A44-E559-4F63-8497-4B39CE6C540B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FriendLocations</string>
+		</dict>
+	</array>
+</dict>
+</plist>
