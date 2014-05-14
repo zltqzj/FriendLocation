@@ -280,9 +280,20 @@
         }
         [cell.state setOn:YES];
         [user setValue:@"YES" forKey:cell.name.text];
+     
          NSDictionary* userinfo = [NSDictionary dictionaryWithObject:cell.name.text forKey:@"name"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"add" object:self userInfo:userinfo];// 地图中的显示
 
+    }];
+    // 是否可见
+    [cell.forbidden handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
+        if ([cell.forbidden.titleLabel.text isEqualToString:VISIBLE]) {
+            [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
+        }
+        else{
+            [cell.forbidden setTitle:VISIBLE forState:UIControlStateNormal];
+
+        }
     }];
     
     return cell;
@@ -302,7 +313,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.0;
+    return 80.0;
 }
 
 

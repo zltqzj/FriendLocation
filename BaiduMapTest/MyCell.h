@@ -16,5 +16,8 @@
 
 @property(strong,nonatomic) IBOutlet UIButton* onlyAppear;
 
+@property(strong,nonatomic) IBOutlet UIButton* forbidden;
+
+
 
 @end

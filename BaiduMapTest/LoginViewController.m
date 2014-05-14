@@ -51,6 +51,7 @@
     else{
         NSString* url = [NSString stringWithFormat:@"%@%@",LOGIN,self.textfield.text];
         NSLog(@"%@",url);
+        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
         _login_request = request;
     

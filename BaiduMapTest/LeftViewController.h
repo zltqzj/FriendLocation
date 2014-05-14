@@ -10,6 +10,10 @@
 #import "MapPoint.h"
 #import "MyCell.h"
 #import "ViewController.h"
+
+#define VISIBLE @"可见我的位置"
+#define UNVISIBLE @"不可见我的位置"
+
 @interface LeftViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 

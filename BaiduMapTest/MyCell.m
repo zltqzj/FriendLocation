@@ -12,6 +12,7 @@
 @synthesize name = _name;
 @synthesize state = _state;
 @synthesize onlyAppear = _onlyAppear;
+@synthesize forbidden = _forbidden;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

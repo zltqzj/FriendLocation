@@ -41,6 +41,8 @@
     else{
     
     NSString* url = [NSString stringWithFormat:@"%@%@&latitude=-1&longitude=-1",REGIST,self.textfield.text];
+        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     NSLog(@"%@",url);
     ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
     _regist_request = request;
