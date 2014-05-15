@@ -152,7 +152,7 @@
 {
     [super viewDidLoad];
     _textfield.delegate = self;
-    
+    _textfield.clearButtonMode = UITextFieldViewModeAlways;
     self.title = @"登陆";
     
     if (SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"7")&&[self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {

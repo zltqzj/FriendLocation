@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C0266781923761B0062C866 /* MMExampleSideDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0266771923761B0062C866 /* MMExampleSideDrawerViewController.m */; };
+		1C0A352619244DAD008CEEF8 /* MMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352519244DAD008CEEF8 /* MMTableViewCell.m */; };
+		1C0A352919244DD3008CEEF8 /* MMSideDrawerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352819244DD3008CEEF8 /* MMSideDrawerTableViewCell.m */; };
+		1C0A352C19244DF2008CEEF8 /* MMCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352B19244DF2008CEEF8 /* MMCenterTableViewCell.m */; };
+		1C0A352F19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352E19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m */; };
 		1C0E220D191A161700263862 /* AgentCountQueryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0E21E2191A161700263862 /* AgentCountQueryService.m */; };
 		1C0E220E191A161700263862 /* CommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0E21E4191A161700263862 /* CommonUtils.m */; };
 		1C0E221C191A161700263862 /* MapPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0E2203191A161700263862 /* MapPoint.m */; };
@@ -114,6 +119,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C0266761923761B0062C866 /* MMExampleSideDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMExampleSideDrawerViewController.h; sourceTree = "<group>"; };
+		1C0266771923761B0062C866 /* MMExampleSideDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleSideDrawerViewController.m; sourceTree = "<group>"; };
+		1C0A352419244DAD008CEEF8 /* MMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTableViewCell.h; sourceTree = "<group>"; };
+		1C0A352519244DAD008CEEF8 /* MMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTableViewCell.m; sourceTree = "<group>"; };
+		1C0A352719244DD3008CEEF8 /* MMSideDrawerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerTableViewCell.h; sourceTree = "<group>"; };
+		1C0A352819244DD3008CEEF8 /* MMSideDrawerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMSideDrawerTableViewCell.m; sourceTree = "<group>"; };
+		1C0A352A19244DF2008CEEF8 /* MMCenterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMCenterTableViewCell.h; sourceTree = "<group>"; };
+		1C0A352B19244DF2008CEEF8 /* MMCenterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMCenterTableViewCell.m; sourceTree = "<group>"; };
+		1C0A352D19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerSectionHeaderView.h; sourceTree = "<group>"; };
+		1C0A352E19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMSideDrawerSectionHeaderView.m; sourceTree = "<group>"; };
 		1C0E21E1191A161700263862 /* AgentCountQueryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgentCountQueryService.h; sourceTree = "<group>"; };
 		1C0E21E2191A161700263862 /* AgentCountQueryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgentCountQueryService.m; sourceTree = "<group>"; };
 		1C0E21E3191A161700263862 /* CommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtils.h; sourceTree = "<group>"; };
@@ -635,6 +650,16 @@
 				1CF08933191B1A9E000D9734 /* MMExampleDrawerVisualStateManager.m */,
 				1CF08934191B1A9E000D9734 /* UIViewController+MMDrawerController.h */,
 				1CF08935191B1A9E000D9734 /* UIViewController+MMDrawerController.m */,
+				1C0266761923761B0062C866 /* MMExampleSideDrawerViewController.h */,
+				1C0266771923761B0062C866 /* MMExampleSideDrawerViewController.m */,
+				1C0A352419244DAD008CEEF8 /* MMTableViewCell.h */,
+				1C0A352519244DAD008CEEF8 /* MMTableViewCell.m */,
+				1C0A352719244DD3008CEEF8 /* MMSideDrawerTableViewCell.h */,
+				1C0A352819244DD3008CEEF8 /* MMSideDrawerTableViewCell.m */,
+				1C0A352A19244DF2008CEEF8 /* MMCenterTableViewCell.h */,
+				1C0A352B19244DF2008CEEF8 /* MMCenterTableViewCell.m */,
+				1C0A352D19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.h */,
+				1C0A352E19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m */,
 			);
 			path = MMUtils;
 			sourceTree = "<group>";
@@ -1057,6 +1082,7 @@
 				1C0E220E191A161700263862 /* CommonUtils.m in Sources */,
 				1C0E227A191A20AD00263862 /* UINavigationItem+Margin.m in Sources */,
 				1CF0A2EE1918B8070046E4B8 /* AppDelegate.m in Sources */,
+				1C0A352619244DAD008CEEF8 /* MMTableViewCell.m in Sources */,
 				1C0E2268191A20AD00263862 /* ASIDataDecompressor.m in Sources */,
 				1C0E2269191A20AD00263862 /* ASIDownloadCache.m in Sources */,
 				1CF0893A191B1A9E000D9734 /* UIViewController+MMDrawerController.m in Sources */,
@@ -1072,11 +1098,14 @@
 				1C0E2271191A20AD00263862 /* ZXObject.m in Sources */,
 				1CF08937191B1A9E000D9734 /* MMDrawerController.m in Sources */,
 				1C0E2278191A20AD00263862 /* SBJsonParser.m in Sources */,
+				1C0A352919244DD3008CEEF8 /* MMSideDrawerTableViewCell.m in Sources */,
 				1CF08939191B1A9E000D9734 /* MMExampleDrawerVisualStateManager.m in Sources */,
 				1C0E226A191A20AD00263862 /* ASIFormDataRequest.m in Sources */,
 				1C0E226F191A20AD00263862 /* BUIControl.m in Sources */,
 				1C0E226B191A20AD00263862 /* ASIHTTPRequest.m in Sources */,
 				1C9418AF191CC4A900E36E14 /* ProgressHUD.m in Sources */,
+				1C0266781923761B0062C866 /* MMExampleSideDrawerViewController.m in Sources */,
+				1C0A352C19244DF2008CEEF8 /* MMCenterTableViewCell.m in Sources */,
 				1CF0893D191B1BF1000D9734 /* LeftViewController.m in Sources */,
 				1C0E228B191A2DF000263862 /* LoginViewController.m in Sources */,
 				1CF08949191B8500000D9734 /* RegistViewController.m in Sources */,
@@ -1091,6 +1120,7 @@
 				1C0E222B191A1C1200263862 /* MapAddress.m in Sources */,
 				1C0E2270191A20AD00263862 /* BUIView.m in Sources */,
 				1C0E2266191A20AD00263862 /* ASIAuthenticationDialog.m in Sources */,
+				1C0A352F19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m in Sources */,
 				1CF0A2EA1918B8070046E4B8 /* main.m in Sources */,
 				1C0E2273191A20AD00263862 /* RegularExpression.m in Sources */,
 				1C0E2274191A20AD00263862 /* NSObject+SBJSON.m in Sources */,

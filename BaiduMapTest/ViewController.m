@@ -44,6 +44,8 @@ static int zoom_level = 1;
 @synthesize manager = _manager;
 @synthesize getMyPermisson = _getMyPermisson;
 @synthesize uploadGPS_timer = _uploadGPS_timer;
+@synthesize forbiddenList = _forbiddenList;
+
 // 导航栏右侧按钮触发的事件
 -(void)back{
 
@@ -115,6 +117,7 @@ static int zoom_level = 1;
         
     }
     _list = [[NSMutableArray alloc] initWithCapacity:10];
+    _forbiddenList = [[NSMutableArray alloc] initWithCapacity:10];
     _manager.delegate = self;
     
     // 添加地图
@@ -200,7 +203,11 @@ static int zoom_level = 1;
 
 // 遍历添加标注
 -(void)addAnnos{
-        ASIFormDataRequest* req = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:ALL_LOCATION]];
+    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+    NSString* myname = [userD objectForKey:@"currentPerson"];
+    NSString* myid = [userD objectForKey:@"id"];
+  
+        ASIFormDataRequest* req = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[ALL_LOCATION stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         _all_location_request = req;
         [_all_location_request startAsynchronous];
         
@@ -210,35 +217,77 @@ static int zoom_level = 1;
             SBJsonParser* sb = [[SBJsonParser alloc] init];
             NSArray* list = [sb objectWithString:str];
             NSMutableArray* annoArray = [[NSMutableArray alloc] initWithCapacity:0];
+            
+             NSString* all_forbidden = nil; // |zhaojian|字符串
+            
+            if (list) {
+                for (id item in list) {
+                    if ([[item objectForKey:@"user_id"] isEqualToString:myid]) {
+                        NSLog(@"%@",[item objectForKey:@"forbidden"]);
+                        all_forbidden =[item objectForKey:@"forbidden"];
+                    }
+                }
+            }
+            
+       
             // 遍历list
             if (list) {
                 
                     for (id item in list) {
+                        
                         NSString* name = [item objectForKey:@"name"];
-                        NSString* time = [item objectForKey:@"last_update"];
-                        NSString* lati = [item objectForKey:@"user_latitude"];
-                        NSString* logi = [item objectForKey:@"user_longitude"];
-                        NSLog(@"查询到的好友名称%@",time);
-                        // 判断每个人的状态
-                        NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-                        if ([user objectForKey:name]) {
+                        NSString* user_id = [item objectForKey:@"user_id"];
+                        user_id = [NSString stringWithFormat:@"|%@|",user_id];
+                        // 判断name是否存在于forbidden字符串中,如果不存在才去添加到数组中
+                        if ([all_forbidden rangeOfString:user_id].location == NSNotFound) {
+                           
+                            NSString* time = [item objectForKey:@"last_update"];
+                            NSString* lati = [item objectForKey:@"user_latitude"];
+                            NSString* logi = [item objectForKey:@"user_longitude"];
+                            id forbidden = [item objectForKey:@"forbidden"];
                             
-                        }else{
-                           [user setValue:@"YES" forKey:name];
-                        
+                            
+                            NSLog(@"查询到的屏蔽字符串%@,%@",forbidden,[forbidden class]);
+                            // 判断每个人的状态
+                            NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+                            if ([user objectForKey:name]) {
+                                
+                            }else{
+                                [user setValue:@"YES" forKey:name];
+                                
+                            }
+                            
+                            CLLocationCoordinate2D lo = CLLocationCoordinate2DMake([lati doubleValue],[logi doubleValue]);
+                            lo = [self hhTrans_GCGPS:lo];// 百度坐标转为GPS坐标
+                            MapPoint* mmp = [[MapPoint alloc] initWithCoordinate2D:lo];
+                            mmp.title = name;
+                            mmp.subtitle = time;
+                            
+                            
+                            // 是否自己被他人屏蔽
+                            // 先看enable 再看forbidden,
+                            if ([[item objectForKey:@"enable"] isEqualToString:@"2"]){ // 不显示
+                                
+                            }
+                            
+                            else{
+                                
+                                if ([[user objectForKey:name] isEqualToString:@"YES"]) {
+                                    [_mapView addAnnotation:mmp] ;
+                                }
+                                [annoArray addObject:mmp];
+                                 [_forbiddenList addObject:forbidden];// forbidden列表
+                            }
+                            
+                            
+                            
+                            
+                            
                         }
- 
-                        CLLocationCoordinate2D lo = CLLocationCoordinate2DMake([lati doubleValue],[logi doubleValue]);
-                        lo = [self hhTrans_GCGPS:lo];// 百度坐标转为GPS坐标
-                        MapPoint* mmp = [[MapPoint alloc] initWithCoordinate2D:lo];
-                        mmp.title = name;
-                        mmp.subtitle = time;
- 
-                        if ([[user objectForKey:name] isEqualToString:@"YES"]) {
-                             [_mapView addAnnotation:mmp];
-                        }
                         
-                        [annoArray addObject:mmp];
+                    
+                        
+                        
     
                     }
                    _list = annoArray;
@@ -521,6 +570,7 @@ static int zoom_level = 1;
  
     NSMutableDictionary* dict2 = [[NSMutableDictionary alloc] initWithCapacity:10];
     [dict2 setObject:_list forKey:@"list"];
+    [dict2 setObject:_forbiddenList forKey:@"forbidden"];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFriends" object:self userInfo:dict2];
     

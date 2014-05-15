@@ -93,6 +93,8 @@
 {
     [super viewDidLoad];
     _textfield.delegate = self;
+    _textfield.clearButtonMode = UITextFieldViewModeAlways;
+    
     self.title = @"注册";
     // 导航栏左侧按钮
     UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];

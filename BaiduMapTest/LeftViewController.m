@@ -17,6 +17,9 @@
 @synthesize myTable = _myTable;
 @synthesize cellList = _cellList;
 @synthesize hiddenMyselfButton = _hiddenMyselfButton;
+@synthesize forbiddenRequest = _forbiddenRequest;
+@synthesize forbiddenList = _forbiddenList;
+@synthesize rm_forbiddenRequest = _rm_forbiddenRequest;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,7 +34,7 @@
     
     self.title = @"朋友列表";
     _cellList  = [[NSMutableArray alloc] initWithCapacity:10];
-    
+    _forbiddenList  = [[NSMutableArray alloc] initWithCapacity:10];
     [self.view setBackgroundColor:[UIColor orangeColor]];
     
     if (IS_IPHONE5||IS_IPAD) {
@@ -145,6 +148,7 @@
                 NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
                 NSString* id = [user objectForKey:@"id"];
                 NSString* url = [NSString stringWithFormat:@"%@%@",SEARCH_MY_PERMISSON,id];
+                 url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                  ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL  URLWithString:url]];
                 _searchMyLocationState = request;
                 [_searchMyLocationState startAsynchronous];
@@ -179,10 +183,12 @@
 -(void)refreshFriends:(NSNotification*)info  {
    
     NSDictionary* dict = info.userInfo;
-    NSLog(@"字典：%@",dict);
     _list= [dict objectForKey:@"list"];
-    NSLog(@"数组：%@",_list);
- 
+    
+    _forbiddenList = [dict objectForKey:@"forbidden"];
+    
+    NSLog(@"禁止的数组：%@",_forbiddenList);
+    
     if (_list) {
         [ProgressHUD dismiss];
          [self.myTable reloadData];
@@ -267,6 +273,8 @@
     
     cell.state.tag = indexPath.row;  // 给每行设置tag值，第0行的tag为0
     [cell.state addTarget:self action:@selector(switch:) forControlEvents:UIControlEventValueChanged];
+    
+    
     // 点击只显示
     [cell.onlyAppear handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
         NSLog(@"点击"); // 遍历数组，将所有开关关闭。
@@ -285,14 +293,73 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"add" object:self userInfo:userinfo];// 地图中的显示
 
     }];
+    NSString* myid = [user objectForKey:@"id"];
+    NSString* forbidden =[_forbiddenList objectAtIndex:indexPath.row];
+    NSLog(@"我的名字：%@,字符串%@",myid,forbidden);
+    if ([forbidden rangeOfString:myid].location == NSNotFound) {// 说明看得见
+        [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
+    }
+    else{
+        [cell.forbidden setTitle:VISIBLE forState:UIControlStateNormal];
+    }
+    
+    
+    
     // 是否可见
     [cell.forbidden handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
-        if ([cell.forbidden.titleLabel.text isEqualToString:VISIBLE]) {
-            [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
+        if ([cell.forbidden.titleLabel.text isEqualToString:UNVISIBLE]) {
+           
+            // 去设置不可见（上传“朋友的名字”）
+            NSString* url = [NSString stringWithFormat:@"%@%@&forbidden=%@",FORBIDDEN,[user objectForKey:@"id"],str];
+            NSLog(@"%@",url);
+             url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url] ];
+            _forbiddenRequest  = request ;
+            [_forbiddenRequest startAsynchronous];
+            
+            [_forbiddenRequest setCompletionBlock:^{
+                if ([[_forbiddenRequest responseString] isEqualToString:@"1"]) {
+                     [cell.forbidden setTitle:VISIBLE forState:UIControlStateNormal];
+                    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"他看不见你了" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alert show];
+                    
+                }
+                else{
+                    [ProgressHUD showError:@"操作失败"];
+                }
+            }];
+            [_forbiddenRequest setFailedBlock:^{
+                [ProgressHUD showError:@"请检查网络"];
+            }];
+            
         }
         else{
-            [cell.forbidden setTitle:VISIBLE forState:UIControlStateNormal];
-
+           
+            // 去设置可见
+              NSString* url = [NSString stringWithFormat:@"%@%@&forbidden=%@",RM_FORBIDDEN,[user objectForKey:@"id"],str];
+             NSLog(@"%@",url);
+             url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+            _rm_forbiddenRequest = request;
+            [_rm_forbiddenRequest startAsynchronous];
+            
+            [_rm_forbiddenRequest setCompletionBlock:^{
+                NSLog(@"%@",[_rm_forbiddenRequest responseString]);
+                if ([[_rm_forbiddenRequest responseString] isEqualToString:@"1"]) {
+                     [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
+                    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"他能看见你了" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alert show];
+                    
+                }
+                else{
+                    [ProgressHUD showError:@"操作失败"];
+                }
+            }];
+            [_rm_forbiddenRequest setFailedBlock:^{
+                 [ProgressHUD showError:@"请检查网络"];
+            }];
+            
+            
         }
     }];
     
@@ -309,7 +376,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

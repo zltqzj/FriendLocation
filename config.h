@@ -67,6 +67,10 @@
 // 查询自己可视权限
 #define SEARCH_MY_PERMISSON @"http://weixin.jsptz.com/map.php?action=getMyPermisson&userid="
 
+// 不让好友看到我
+#define FORBIDDEN @"http://weixin.jsptz.com/map.php?action=forbidden&userid="
 
+// 让好友看到我
+#define RM_FORBIDDEN @"http://weixin.jsptz.com/map.php?action=rmForbidden&userid="
 
 #endif

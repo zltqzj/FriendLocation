@@ -44,6 +44,10 @@
 @property (nonatomic, retain) CAShapeLayer *m_pathLayer;
 /////////////
 @property(strong,nonatomic) NSMutableArray* list;
+@property(strong,nonatomic) NSMutableArray* forbiddenList;
+
+
+
 
 @property(strong,nonatomic)    NSTimer* m_timer;
 @property(strong,nonatomic) NSTimer* uploadGPS_timer;
