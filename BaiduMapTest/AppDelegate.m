@@ -43,7 +43,7 @@
             
             NSURL* url = [NSURL URLWithString:DOWNLOAD];
             
-            if (![verCode isEqualToString:nowVersion]) {
+            if (![verCode isEqualToString:nowVersion] &&verCode ) {
                 UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"版本更新" delegate:self cancelButtonTitle:@"暂不升级" otherButtonTitles:@"马上升级", nil];
                 [alert showWithCompletionHandler:^(NSInteger buttonIndex) {
                     switch (buttonIndex) {
@@ -104,6 +104,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [self GetUpdate]; // 检查更新
+    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+    [user removeObjectForKey:@"one_la"];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

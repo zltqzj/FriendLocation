@@ -47,14 +47,23 @@
 @property(strong,nonatomic) NSMutableArray* forbiddenList;
 
 
-
+//@property(assign,nonatomic) NSInteger zoom_level;
+@property(assign,nonatomic) NSInteger zoom_level;
 
 @property(strong,nonatomic)    NSTimer* m_timer;
 @property(strong,nonatomic) NSTimer* uploadGPS_timer;
 
-
+@property(strong,nonatomic) NSTimer* zoom_timer;
 
 @property(strong,nonatomic)CLLocationManager* manager;
+
+
+@property(strong,nonatomic) NSString* oneLatitude;
+@property(strong,nonatomic) NSString* oneLogitude;
+
+@property(strong,nonatomic) NSMutableArray* listLaLo;
+
+
 @property int prjSelect;
 @property BOOL isLoaded;
 

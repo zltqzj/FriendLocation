@@ -29,12 +29,24 @@
 }
 
 
+
+
+
 -(IBAction)regist:(id)sender
 {
+    
     if ([_textfield.text isEqualToString:@""]||_textfield.text == nil || _textfield.text ==NULL || [_textfield.text isKindOfClass:[NSNull class]] || [[_textfield.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] == 0) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"输入不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert showWithCompletionHandler:^(NSInteger buttonIndex) {
             
+        }];
+    }
+    else if([_textfield.text rangeOfString:@"|"].location  || [_textfield.text rangeOfString:@" "].location ){
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"输入格式不正确" message:@"不能输入‘|’或空格" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert showWithCompletionHandler:^(NSInteger buttonIndex) {
+            if (buttonIndex ==0) {
+                _textfield.text = @"";
+            }
         }];
     }
     
@@ -95,6 +107,7 @@
     _textfield.delegate = self;
     _textfield.clearButtonMode = UITextFieldViewModeAlways;
     
+
     self.title = @"注册";
     // 导航栏左侧按钮
     UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
@@ -121,7 +134,10 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    
     [_textfield resignFirstResponder];
+    
+    
 }
 
 

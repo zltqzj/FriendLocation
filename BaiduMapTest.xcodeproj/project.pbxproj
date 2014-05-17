@@ -12,6 +12,7 @@
 		1C0A352919244DD3008CEEF8 /* MMSideDrawerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352819244DD3008CEEF8 /* MMSideDrawerTableViewCell.m */; };
 		1C0A352C19244DF2008CEEF8 /* MMCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352B19244DF2008CEEF8 /* MMCenterTableViewCell.m */; };
 		1C0A352F19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352E19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m */; };
+		1C0A35321924AF00008CEEF8 /* MMLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A35311924AF00008CEEF8 /* MMLogoView.m */; };
 		1C0E220D191A161700263862 /* AgentCountQueryService.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0E21E2191A161700263862 /* AgentCountQueryService.m */; };
 		1C0E220E191A161700263862 /* CommonUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0E21E4191A161700263862 /* CommonUtils.m */; };
 		1C0E221C191A161700263862 /* MapPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0E2203191A161700263862 /* MapPoint.m */; };
@@ -129,6 +130,8 @@
 		1C0A352B19244DF2008CEEF8 /* MMCenterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMCenterTableViewCell.m; sourceTree = "<group>"; };
 		1C0A352D19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerSectionHeaderView.h; sourceTree = "<group>"; };
 		1C0A352E19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMSideDrawerSectionHeaderView.m; sourceTree = "<group>"; };
+		1C0A35301924AF00008CEEF8 /* MMLogoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMLogoView.h; sourceTree = "<group>"; };
+		1C0A35311924AF00008CEEF8 /* MMLogoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMLogoView.m; sourceTree = "<group>"; };
 		1C0E21E1191A161700263862 /* AgentCountQueryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgentCountQueryService.h; sourceTree = "<group>"; };
 		1C0E21E2191A161700263862 /* AgentCountQueryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgentCountQueryService.m; sourceTree = "<group>"; };
 		1C0E21E3191A161700263862 /* CommonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtils.h; sourceTree = "<group>"; };
@@ -660,6 +663,8 @@
 				1C0A352B19244DF2008CEEF8 /* MMCenterTableViewCell.m */,
 				1C0A352D19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.h */,
 				1C0A352E19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m */,
+				1C0A35301924AF00008CEEF8 /* MMLogoView.h */,
+				1C0A35311924AF00008CEEF8 /* MMLogoView.m */,
 			);
 			path = MMUtils;
 			sourceTree = "<group>";
@@ -1122,6 +1127,7 @@
 				1C0E2266191A20AD00263862 /* ASIAuthenticationDialog.m in Sources */,
 				1C0A352F19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m in Sources */,
 				1CF0A2EA1918B8070046E4B8 /* main.m in Sources */,
+				1C0A35321924AF00008CEEF8 /* MMLogoView.m in Sources */,
 				1C0E2273191A20AD00263862 /* RegularExpression.m in Sources */,
 				1C0E2274191A20AD00263862 /* NSObject+SBJSON.m in Sources */,
 			);

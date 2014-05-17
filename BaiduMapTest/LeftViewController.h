@@ -26,11 +26,13 @@
 @property(strong,nonatomic) NSMutableArray* cellList;
 
 @property(strong,nonatomic) UIBarButtonItem* hiddenMyselfButton;
+
 @property(weak,nonatomic) ASIFormDataRequest* hideMyLocation;
 @property(weak,nonatomic) ASIFormDataRequest* searchMyLocationState;
 
 @property(weak,nonatomic) ASIFormDataRequest* forbiddenRequest;// 不让某人看见我
 @property(weak,nonatomic) ASIFormDataRequest* rm_forbiddenRequest;// 让某人看见我
+
 
 
 

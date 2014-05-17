@@ -75,7 +75,7 @@
         
     }
         
-    [self.navigationItem setLeftBarButtonItems:@[hiddenMyself] animated:YES];
+  //  [self.navigationItem setLeftBarButtonItems:@[hiddenMyself] animated:YES];
 }
 
 
@@ -278,6 +278,14 @@
     // 点击只显示
     [cell.onlyAppear handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
         NSLog(@"点击"); // 遍历数组，将所有开关关闭。
+    //    NSLog(@"%@", [_list objectAtIndex:indexPath.row]) ;
+        MapPoint* mmp = [[MapPoint alloc] init];
+        mmp = [_list objectAtIndex:indexPath.row];
+        NSLog(@"%f",mmp.coordinate.latitude);  
+        NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+        [user setValue:[NSString stringWithFormat:@"%f", mmp.coordinate.latitude] forKey:@"one_la"];
+        [user setValue:[NSString stringWithFormat:@"%f",mmp.coordinate.longitude] forKey:@"one_lo"];
+        
         for (MyCell* item in _cellList) {
             [item.state setOn:NO];// 列表中的显示
            
@@ -291,6 +299,19 @@
      
          NSDictionary* userinfo = [NSDictionary dictionaryWithObject:cell.name.text forKey:@"name"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"add" object:self userInfo:userinfo];// 地图中的显示
+        
+        // 隐藏右边视图
+        UIStoryboard* sb  = nil;
+        if (IS_IPAD) {
+            sb = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        }
+        else if(IS_IPHONE){
+            sb = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+            
+        }
+        ViewController* view = [sb instantiateViewControllerWithIdentifier:@"map"];
+        UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:view];
+        [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
 
     }];
     NSString* myid = [user objectForKey:@"id"];
@@ -376,6 +397,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
