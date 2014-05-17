@@ -6,7 +6,7 @@ see all your friends location who regists the app
 ## 1、Here is a php file work for the ios demo,but you should find medoo.php first.U can get it through the Internet.I won't display it.
 
 <pre><code>
- <?php
+  
 require('medoo.php');
 $action = $_GET['action'];
 
@@ -297,7 +297,7 @@ else {
   echo "niubi";
 }
 
-?>
+ 
 
 </code></pre>
 ## 2、 There are some function that i have not use it .
