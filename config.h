@@ -12,6 +12,7 @@
 // 数值转为字符串
 #define valueToString(_value) [@(_value) stringValue]
 
+#define PI 3.14159265358979323846264338327950288
 
 #pragma mark - 判断设备
 // 屏幕高度
@@ -72,5 +73,18 @@
 
 // 让好友看到我
 #define RM_FORBIDDEN @"http://weixin.jsptz.com/map.php?action=rmForbidden&userid="
+
+// 查询所有人的坐标
+#define ALL_LOCATION @"http://weixin.jsptz.com/map.php?action=getAllUserLocaltion&userid=45"
+
+// 上传我的坐标
+#define  UPLOAD_LOCATION @"http://weixin.jsptz.com/map.php?action=uploadMyLocation"
+
+#define VISIBLE @"可见我的位置"
+#define UNVISIBLE @"不可见我的位置"
+
+
+
+
 
 #endif

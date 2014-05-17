@@ -20,6 +20,8 @@
 @synthesize forbiddenRequest = _forbiddenRequest;
 @synthesize forbiddenList = _forbiddenList;
 @synthesize rm_forbiddenRequest = _rm_forbiddenRequest;
+@synthesize fobiddenInMyItem = _fobiddenInMyItem;
+@synthesize friendIDs = _friendIDs;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -129,16 +131,7 @@
                 [_hiddenMyselfButton setTitle:@"打开我"];
                 // 给列表一个通知，未完待续
             }
-            UIStoryboard* sbd = nil;
-            if (IS_IPHONE) {
-                sbd  = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-            }
-            if (IS_IPAD) {
-                sbd = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-            }
-            
-            
-            
+                         
             
         }
         else{
@@ -180,15 +173,17 @@
 
 
 
+// 刷新右侧朋友列表
 -(void)refreshFriends:(NSNotification*)info  {
    
     NSDictionary* dict = info.userInfo;
     _list= [dict objectForKey:@"list"];
     
     _forbiddenList = [dict objectForKey:@"forbidden"];
+     
+    _fobiddenInMyItem = [dict objectForKey:@"fobiddenInMyItem"];
     
-    NSLog(@"禁止的数组：%@",_forbiddenList);
-    
+    _friendIDs = [dict objectForKey:@"friendIDs"];
     if (_list) {
         [ProgressHUD dismiss];
          [self.myTable reloadData];
@@ -208,12 +203,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFriends:) name:@"refreshFriends" object:nil];
     
     
-    
-    MapPoint* map = [[ MapPoint alloc] init];
-    map = [_list objectAtIndex:0];
-    NSLog(@"数组第一项：latitude：%f,longitude%f,titile:%@",map.coordinate.latitude, map.coordinate.longitude,map.title);
-    
-    
 }
 
 
@@ -221,7 +210,6 @@
 -(void)switch:(id)sender{
     UISwitch* switchControl = sender;
     
-    NSLog( @"The switch is %@", switchControl.on ? @"ON" : @"OFF" );
     MapPoint* map = [[ MapPoint alloc] init];
     map = [_list objectAtIndex:switchControl.tag];
     
@@ -251,34 +239,51 @@
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     static NSString *CustomCellIdentifier = @"cell";
     MyCell* cell = [tableView dequeueReusableCellWithIdentifier:CustomCellIdentifier];
     if (cell == nil) {
         cell = [[MyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CustomCellIdentifier];
     }
+    
+    
+    NSString* friendName =[[_list objectAtIndex:indexPath.row] title];
+    cell.name.text =friendName ;// cell 的朋友的名字
+    
    
-        NSString* str =[[_list objectAtIndex:indexPath.row] title];
-        NSLog(@"%@",str);
-        cell.name.text =str ;
+    
     
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-   
-    if ([[user objectForKey:str] isEqualToString:@"YES"]) {
+    NSString* myid = [user objectForKey:@"id"];
+  //  NSInteger index = indexPath.row;
+    NSString* str = [_friendIDs objectAtIndex:indexPath.row];
+    if ([_fobiddenInMyItem rangeOfString:str].location == NSNotFound) {
+        cell.backgroundColor = [ UIColor clearColor];
+    }
+    else{
+        cell.backgroundColor = [UIColor lightGrayColor];
+        [cell.state setOn:NO];
+        [cell.state setEnabled:NO];
+        [cell.onlyAppear setEnabled:NO];
+        
+    }
+   // [[NSUserDefaults standardUserDefaults] objectForKey:@""];
+    
+    if ([[user objectForKey:friendName] isEqualToString:@"YES"]) {
         [cell.state setOn:YES];
     }else{
         [cell.state setOn:NO];
     }
    
     [_cellList addObject:cell];// 所有cell添加到数组中
-    
+     
     cell.state.tag = indexPath.row;  // 给每行设置tag值，第0行的tag为0
     [cell.state addTarget:self action:@selector(switch:) forControlEvents:UIControlEventValueChanged];
     
     
     // 点击只显示
     [cell.onlyAppear handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
-        NSLog(@"点击"); // 遍历数组，将所有开关关闭。
-    //    NSLog(@"%@", [_list objectAtIndex:indexPath.row]) ;
+         // 遍历数组，将所有开关关闭。
         MapPoint* mmp = [[MapPoint alloc] init];
         mmp = [_list objectAtIndex:indexPath.row];
         NSLog(@"%f",mmp.coordinate.latitude);  
@@ -288,11 +293,9 @@
         
         for (MyCell* item in _cellList) {
             [item.state setOn:NO];// 列表中的显示
-           
             [user setValue:@"NO" forKey:item.name.text]; // 保存起来
              NSDictionary* userinfo = [NSDictionary dictionaryWithObject:item.name.text forKey:@"name"];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"remove" object:self userInfo:userinfo];// 地图中的显示
-
         }
         [cell.state setOn:YES];
         [user setValue:@"YES" forKey:cell.name.text];
@@ -302,28 +305,27 @@
         
         // 隐藏右边视图
         UIStoryboard* sb  = nil;
-        if (IS_IPAD) {
+        if (IS_IPAD)
             sb = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-        }
-        else if(IS_IPHONE){
+        else if(IS_IPHONE)
             sb = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
-            
-        }
+        
         ViewController* view = [sb instantiateViewControllerWithIdentifier:@"map"];
         UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:view];
         [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
 
     }];
-    NSString* myid = [user objectForKey:@"id"];
+  
     NSString* forbidden =[_forbiddenList objectAtIndex:indexPath.row];
     NSLog(@"我的名字：%@,字符串%@",myid,forbidden);
     if ([forbidden rangeOfString:myid].location == NSNotFound) {// 说明看得见
         [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
+        [cell.forbidden setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     }
     else{
         [cell.forbidden setTitle:VISIBLE forState:UIControlStateNormal];
+        [cell.forbidden setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     }
-    
     
     
     // 是否可见
@@ -331,9 +333,8 @@
         if ([cell.forbidden.titleLabel.text isEqualToString:UNVISIBLE]) {
            
             // 去设置不可见（上传“朋友的名字”）
-            NSString* url = [NSString stringWithFormat:@"%@%@&forbidden=%@",FORBIDDEN,[user objectForKey:@"id"],str];
-            NSLog(@"%@",url);
-             url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString* url = [[NSString stringWithFormat:@"%@%@&forbidden=%@",FORBIDDEN,[user objectForKey:@"id"],friendName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+           
             ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url] ];
             _forbiddenRequest  = request ;
             [_forbiddenRequest startAsynchronous];
@@ -341,6 +342,7 @@
             [_forbiddenRequest setCompletionBlock:^{
                 if ([[_forbiddenRequest responseString] isEqualToString:@"1"]) {
                      [cell.forbidden setTitle:VISIBLE forState:UIControlStateNormal];
+                    [cell.forbidden setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
                     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"他看不见你了" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                     [alert show];
                     
@@ -357,9 +359,8 @@
         else{
            
             // 去设置可见
-              NSString* url = [NSString stringWithFormat:@"%@%@&forbidden=%@",RM_FORBIDDEN,[user objectForKey:@"id"],str];
-             NSLog(@"%@",url);
-             url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString* url = [[NSString stringWithFormat:@"%@%@&forbidden=%@",RM_FORBIDDEN,[user objectForKey:@"id"],friendName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
             ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
             _rm_forbiddenRequest = request;
             [_rm_forbiddenRequest startAsynchronous];
@@ -368,6 +369,8 @@
                 NSLog(@"%@",[_rm_forbiddenRequest responseString]);
                 if ([[_rm_forbiddenRequest responseString] isEqualToString:@"1"]) {
                      [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
+                    [cell.forbidden setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+
                     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"他能看见你了" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                     [alert show];
                     
@@ -392,8 +395,12 @@
 
 -(void)dealloc
 {
-    // [super dealloc];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refreshFriends:" object:nil];
+    self.list = nil;
+    self.myTable = nil;
+    self.forbiddenList = nil;
+    self.cellList =  nil;
+    self.hiddenMyselfButton = nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -404,10 +411,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 80.0;
 }
-
-
-
- 
 
 - (void)didReceiveMemoryWarning
 {

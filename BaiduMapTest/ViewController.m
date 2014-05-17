@@ -11,18 +11,16 @@
 #import "MMDrawerBarButtonItem.h"
 #import "LeftViewController.h"
 #import "LoginViewController.h"
+
 typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
     MMCenterViewControllerSectionLeftViewState,
     MMCenterViewControllerSectionLeftDrawerAnimation,
     MMCenterViewControllerSectionRightViewState,
     MMCenterViewControllerSectionRightDrawerAnimation,
 };
-#define OFFSET 150
-#define PI 3.14159265358979323846264338327950288
-const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
-//static int zoom_level=1;
 
-static BOOL only = FALSE;
+
+const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 
 @interface ViewController ()
 @property (nonatomic,assign) CGRect openFrame;
@@ -32,20 +30,11 @@ static BOOL only = FALSE;
 @end
 
 @implementation ViewController
-@synthesize listLaLo = _listLaLo;
-
+@synthesize friendIDs = _friendIDs;
+@synthesize fobiddenInMyItem = _fobiddenInMyItem;
 @synthesize zoom_level = _zoom_level;
-@synthesize oneLatitude = _oneLatitude;
-@synthesize oneLogitude = _oneLogitude;
-@synthesize zoom_timer = _zoom_timer;
-@synthesize m_mapView;
-@synthesize m_currentLocation;
 @synthesize list = _list;
-@synthesize m_WaitingAlert, indicator;
-@synthesize animationLayer, m_pathLayer;
 @synthesize upload_location_request = _upload_location_request;
-@synthesize prjSelect;
-@synthesize isLoaded;
 @synthesize all_location_request = _all_location_request;
 @synthesize m_timer;
 @synthesize manager = _manager;
@@ -73,9 +62,7 @@ static BOOL only = FALSE;
 
 // 初始化地图
 -(void)initMap{
-    _listLaLo = [[NSMutableArray alloc] initWithCapacity:10];
-    _oneLogitude = [[NSString alloc] init];
-    _oneLatitude = [[NSString alloc] init];
+    
     _zoom_level = 1;
      self.title = @"朋友定位";
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
@@ -84,7 +71,7 @@ static BOOL only = FALSE;
     }
     _list = [[NSMutableArray alloc] initWithCapacity:10];
     _forbiddenList = [[NSMutableArray alloc] initWithCapacity:10];
-    _manager.delegate = self;
+    _friendIDs = [[NSMutableArray alloc] initWithCapacity:10];
     
     // 添加地图
     _mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -101,9 +88,7 @@ static BOOL only = FALSE;
     [self addAnnos]; // 添加所有标注
     
     [self setupRightMenuButton];  // 显示导航栏右侧按钮
-    if (only == YES) {
-        
-    } else
+    
       [self showUserLocation];  //zoom到四环效果
     
     [NSThread detachNewThreadSelector:@selector(loadGPS) toTarget:self withObject:nil];
@@ -114,42 +99,38 @@ static BOOL only = FALSE;
 
 -(void)zoomMap
 {
-    if (only ==YES) {
+
+    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
         
-        
-    }else{
-   // zoom_level += 1;
-        NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-        
-        if ([user objectForKey:@"one_la"]) {
-            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([[user objectForKey:@"one_la"] doubleValue],[[user objectForKey:@"one_lo"] doubleValue]);
-            MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
+    if ([user objectForKey:@"one_la"]) {
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([[user objectForKey:@"one_la"] doubleValue],[[user objectForKey:@"one_lo"] doubleValue]);
+        MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
             //确定要显示的区域
-            MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
-            NSLog(@"level%d",_zoom_level);
-            [_mapView  setCenterCoordinate:coordinate zoomLevel:_zoom_level animated:NO];
+        MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
+        NSLog(@"level%d",_zoom_level);
+        [_mapView  setCenterCoordinate:coordinate zoomLevel:_zoom_level animated:NO];
             //让地图显示这个区域
-            [_mapView setRegion:region animated:YES];
+        [_mapView setRegion:region animated:YES];
             
-            [m_timer invalidate];
+        [m_timer invalidate];
 
         }
         
-        else{
-            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(39.915352,116.397105);
+    else{
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(39.915352,116.397105);
     //缩放比例
-            MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
+        MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
     //确定要显示的区域
-            MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
-            NSLog(@"level%d",_zoom_level);
-            [_mapView  setCenterCoordinate:coordinate zoomLevel:_zoom_level animated:NO];
+        MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
+        NSLog(@"level%d",_zoom_level);
+        [_mapView  setCenterCoordinate:coordinate zoomLevel:_zoom_level animated:NO];
     //让地图显示这个区域
-            [_mapView setRegion:region animated:YES];
+        [_mapView setRegion:region animated:YES];
 
-            [m_timer invalidate];
-        }
-    
+        [m_timer invalidate];
     }
+    
+    
 }
 
 
@@ -160,7 +141,7 @@ static BOOL only = FALSE;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAnno:) name:@"remove" object:nil];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addAnno:) name:@"add" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(followOneAnno:) name:@"followOneAnno" object:nil];
+    
     
     
     [self initMap]; // 初始化地图
@@ -171,10 +152,7 @@ static BOOL only = FALSE;
 
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
-    if (only == YES) {
-        
-        
-    }else{
+    
     for (id mpAno in views) {
         
         if ([mpAno isKindOfClass:[MKAnnotationView class]]) {
@@ -192,76 +170,13 @@ static BOOL only = FALSE;
             break;
         }
     }
-    }
+    
     
     
 
 }
 
 #pragma mark - 自己定义的方法
-
-
-
-// 只显示此人
--(void)followOneAnno:(NSNotification*)info{
-    
-    /*
-    [self deleteAnnos];
-    
-    NSDictionary* dict = info.userInfo;
-    
-    if (_list && dict && [dict objectForKey:@"name"]) {
-        for (id item in _list) {
-            MapPoint* map = [[ MapPoint alloc] init];
-            map = item;
-            if ([map.title isEqualToString:[dict objectForKey:@"name"]]) {
-               
-                [_mapView addAnnotation:map];
-                //
-                NSLog(@"&&&&%f,%f",map.coordinate.latitude,map.coordinate.longitude);
-                only = YES;
-                _oneLatitude = [NSString stringWithFormat:@"%f",map.coordinate.latitude];
-                _oneLogitude = [NSString stringWithFormat:@"%f",map.coordinate.longitude];
-                [_listLaLo addObject:_oneLatitude];
-                [_listLaLo addObject:_oneLogitude];
-                
-                NSLog(@"%@",_listLaLo);
-                NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:_oneLatitude,@"1",_oneLogitude,@"2", nil];
-                if (only == NO) {
-                }
-                else{
-                    
-                    NSLog(@"111%@",dict);
-                    _zoom_timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(onePerson) userInfo:dict repeats:YES];
-                    
-                }
-                
-
-               // [ self zoomMap:[NSString stringWithFormat:@"%f",map.coordinate.latitude] :[NSString stringWithFormat:@"%f",map.coordinate.longitude]];
-               
-            }
-        }
-    }
-    */
-    
-}
-
--(void)onePerson
-{
-    NSDictionary* dict = _zoom_timer.userInfo;
-    
-    if (only ==YES) {
-        _zoom_level += 1;
-        NSLog(@"111111%@",_listLaLo);
-        
-    }else{
-        
-    }
- 
-
-}
-
-
 
 // 定时器、zoom效果，定时上传GPS
 -(void)showUserLocation
@@ -335,11 +250,7 @@ static BOOL only = FALSE;
 #pragma mark - MKMapViewDelegate
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
-    if (only == YES) {
-        
-    }
-    else{
-    m_currentLocation = userLocation;
+    
     NSLog(@"%f-----%f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
     //停止定位
     [_manager stopUpdatingLocation];
@@ -353,7 +264,7 @@ static BOOL only = FALSE;
     NSString* str2 = [NSString stringWithFormat:@"%f",lo.longitude];
     // 上传坐标
     [self uploadGPSWith_latitude:str1 longitude:str2];
-    }
+    
    
 }
 
@@ -362,12 +273,11 @@ static BOOL only = FALSE;
 
 #pragma mark - CLLocationManagerDelegate
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    if (only ==YES) {
-        
-    }else{
+   
     //当前的位置
     CLLocation* newLocation = [locations lastObject];
     NSLog(@"GPS：%f",newLocation.coordinate.latitude);
+        /*
     _manager = manager;
     
     CLLocationCoordinate2D lo = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude);
@@ -376,10 +286,10 @@ static BOOL only = FALSE;
   
     NSString* str1 = [NSString stringWithFormat:@"%f",lo.latitude];
     NSString* str2 = [NSString stringWithFormat:@"%f",lo.longitude];
-    }
+   
      // 上传坐标  （这里会与正常GPS坐标不同）
   //  [self uploadGPSWith_latitude:str1 longitude:str2];
-    
+    */
     
    
 }
@@ -387,18 +297,13 @@ static BOOL only = FALSE;
 //定位失败
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     NSLog(@"定位失败");
-    if (only == NO) {
+    
         CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(39.915352,116.397105);
         
         float zoomLevel = 0.2;
         MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
         [_mapView setRegion:[_mapView regionThatFits:region] animated:YES];
-    }
-    else{
-        
-    }
-    
-    
+   
     
 }
 
@@ -435,9 +340,7 @@ static BOOL only = FALSE;
     LoginViewController* login = [sbd instantiateViewControllerWithIdentifier:@"login"];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:login];
     
-    [self presentViewController:nav animated:YES completion:^{
-        
-    }];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 
@@ -529,7 +432,7 @@ static BOOL only = FALSE;
     
     [_all_location_request setCompletionBlock:^{
         NSString* str = [_all_location_request responseString];
-        // NSLog(@"查询所有人坐标返回数据%@",str);
+      
         SBJsonParser* sb = [[SBJsonParser alloc] init];
         NSArray* list = [sb objectWithString:str];
         NSMutableArray* annoArray = [[NSMutableArray alloc] initWithCapacity:0];
@@ -538,9 +441,11 @@ static BOOL only = FALSE;
         
         if (list) {
             for (id item in list) {
-                if ([[item objectForKey:@"user_id"] isEqualToString:myid]) {
+                if ([[item objectForKey:@"user_id"] isEqualToString:myid]) { // 查看我那条数据，是否有人不让我看见
                     NSLog(@"%@",[item objectForKey:@"forbidden"]);
                     all_forbidden =[item objectForKey:@"forbidden"];
+                    _fobiddenInMyItem = all_forbidden;
+                    break;
                 }
             }
         }
@@ -554,16 +459,14 @@ static BOOL only = FALSE;
                 NSString* name = [item objectForKey:@"name"];
                 NSString* user_id = [item objectForKey:@"user_id"];
                 user_id = [NSString stringWithFormat:@"|%@|",user_id];
-                // 判断name是否存在于forbidden字符串中,如果不存在才去添加到数组中
-                if ([all_forbidden rangeOfString:user_id].location == NSNotFound) {
+                // 判断朋友id是否存在于我那条forbidden字符串中,如果不存在才去添加到数组中
+              //  if ([all_forbidden rangeOfString:user_id].location == NSNotFound) {
                     
                     NSString* time = [item objectForKey:@"last_update"];
                     NSString* lati = [item objectForKey:@"user_latitude"];
                     NSString* logi = [item objectForKey:@"user_longitude"];
                     id forbidden = [item objectForKey:@"forbidden"];
                     
-                    
-                    NSLog(@"查询到的屏蔽字符串%@,%@",forbidden,[forbidden class]);
                     // 判断每个人的状态
                     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
                     if ([user objectForKey:name]) {
@@ -582,7 +485,7 @@ static BOOL only = FALSE;
                     NSLog(@"gps坐标%f,%f",lo.latitude,lo.longitude);
                     // 是否自己被他人屏蔽
                     // 先看enable 再看forbidden,
-                    if ([[item objectForKey:@"enable"] isEqualToString:@"2"]){ // 不显示
+                    if ([[item objectForKey:@"enable"] isEqualToString:@"2"] || [myname isEqualToString:name]){ // 不显示
                         
                     }
                     
@@ -591,12 +494,13 @@ static BOOL only = FALSE;
                         if ([[user objectForKey:name] isEqualToString:@"YES"]) {
                             [_mapView addAnnotation:mmp] ;
                         }
+                        [_friendIDs addObject:user_id];
                         [annoArray addObject:mmp];
                         [_forbiddenList addObject:forbidden];// forbidden列表
                     }
                     
                     
-                }
+               // }
                 
             }
             _list = annoArray;
@@ -619,8 +523,6 @@ static BOOL only = FALSE;
 // 添加一个标注
 -(void)addAnno:(NSNotification*)info{
     NSDictionary* dict = info.userInfo;
-    
-    NSLog(@"收到添加通知了%@",[dict objectForKey:@"name"]);
     if (_list && dict && [dict objectForKey:@"name"]) {
         for (id item in _list) {
             MapPoint* map = [[ MapPoint alloc] init];
@@ -633,18 +535,16 @@ static BOOL only = FALSE;
             }
         }
     }
-    
 }
 
 // 删除一个标注
 -(void)removeAnno:(NSNotification*)info {
     
     NSDictionary* dict = info.userInfo;
-    
-    NSLog(@"收到删除通知了%@",[dict objectForKey:@"name"]);
+
     if (_list && dict && [dict objectForKey:@"name"]) {
         
-        for (id item in _list) {
+        for (id   item  in _list) {
             MapPoint* map = [[ MapPoint alloc] init];
             map = item;
             if ([map.title isEqualToString:[dict objectForKey:@"name"]]) {
@@ -664,18 +564,14 @@ static BOOL only = FALSE;
     NSMutableDictionary* dict2 = [[NSMutableDictionary alloc] initWithCapacity:10];
     [dict2 setObject:_list forKey:@"list"];
     [dict2 setObject:_forbiddenList forKey:@"forbidden"];
-    
+    [dict2 setObject:_fobiddenInMyItem forKey:@"fobiddenInMyItem"];
+    [dict2 setObject:_friendIDs forKey:@"friendIDs"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFriends" object:self userInfo:dict2];
     
 }
 
--(void)doubleTap:(UITapGestureRecognizer*)gesture{
-    [self.mm_drawerController bouncePreviewForDrawerSide:MMDrawerSideLeft completion:nil];
-}
 
--(void)twoFingerDoubleTap:(UITapGestureRecognizer*)gesture{
-    [self.mm_drawerController bouncePreviewForDrawerSide:MMDrawerSideRight completion:nil];
-}
+
 
 //  把火星坐标转换成百度坐标
 -(CLLocationCoordinate2D)hhTrans_bdGPS:(CLLocationCoordinate2D)fireGps
@@ -720,5 +616,13 @@ static BOOL only = FALSE;
     return googleGps;
     
 }
+
+-(void)dealloc{
+ 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"remove" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"add" object:nil];
+   
+}
+
 
 @end
