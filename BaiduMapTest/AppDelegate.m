@@ -10,9 +10,11 @@
 #import "MMDrawerController.h"
 #import "MMExampleDrawerVisualStateManager.h"
 #import "LoginViewController.h"
+
 @implementation AppDelegate
 @synthesize updateReq = _updateReq;
 @synthesize uploadDevice = _uploadDevice;
+@synthesize hostReach = _hostReach;
 
 -(void)GetUpdate
 {
@@ -70,12 +72,34 @@
     }
 }
 
+- (void)reachabilityChanged:(NSNotification *)note {
+    Reachability* curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass: [Reachability class]]);
+    NetworkStatus status = [curReach currentReachabilityStatus];
+    
+    if (status == NotReachable) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                        message:@"网络出错了……"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+    }
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     if (ISIOS7) {
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav.png"] forBarMetrics:UIBarMetricsDefault];
     }
-   
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name: kReachabilityChangedNotification
+                                               object: nil];
+  
+    _hostReach  = [Reachability reachabilityWithHostname:@"www.baidu.com"];
+    [_hostReach startNotifier];
+ 
 
     // 推送内容有关
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];

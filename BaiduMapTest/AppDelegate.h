@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
-
+#import "Reachability.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+
 
 @property (strong, nonatomic) UIWindow *window;
 @property(nonatomic,weak) ASIFormDataRequest* updateReq;
 @property(nonatomic,weak) ASIFormDataRequest* uploadDevice;
+@property(strong,nonatomic) Reachability* hostReach;
+
 @end

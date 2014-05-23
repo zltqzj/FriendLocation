@@ -43,6 +43,8 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 @synthesize forbiddenList = _forbiddenList;
 
 
+#pragma mark - FUNCTIONS
+
 -(void)refresh{
     NSLog(@"刷新");
   
@@ -60,9 +62,78 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     
 }
 
+-(void)initButtonOnMap
+{
+    UIButton* gps_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [gps_btn setImage:[UIImage imageNamed:@"location_point.png"] forState:UIControlStateNormal];
+    [gps_btn setFrame:CGRectMake(self.view.bounds.size.width-48, 10, 38, 38)];
+    [_mapView addSubview:gps_btn];
+    
+    [gps_btn handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
+        [ProgressHUD show:@"定位中……"];
+        
+        if (_manager.location.coordinate.latitude > 1) {
+            MKCoordinateRegion theRegion = { {0.0, 0.0 }, { 0.0, 0.0 } };
+            theRegion.span.longitudeDelta = 0.01f;
+            theRegion.span.latitudeDelta = 0.01f;
+            MKCoordinateSpan theSpan;
+            theSpan.latitudeDelta=0.05;
+            theSpan.longitudeDelta=0.05;
+            theRegion.center=[_manager.location coordinate];
+            theRegion.span=theSpan;
+            [_mapView setRegion:[_mapView regionThatFits:theRegion] animated:TRUE];
+            [_mapView setDelegate:self];
+            [_mapView setShowsUserLocation:YES];
+            
+            [_mapView setRegion:theRegion animated:YES];
+            [_mapView setCenterCoordinate:_manager.location.coordinate animated:YES];
+            [ProgressHUD showSuccess:@"定位成功"];
+        }
+        else{
+            [ProgressHUD dismiss];
+            //请打开系统设置中“隐私->定位服务”，允许“朋友定位”使用您的位置
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"定位失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert  show];
+            
+        }
+        
+        
+    }];
+    
+    UIButton* add_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [add_btn setImage:[UIImage imageNamed:@"btn_zoom_normal.png"] forState:UIControlStateNormal];
+    [add_btn setImage:[UIImage imageNamed:@"btn_zoom_pressed.png"] forState:UIControlStateSelected];
+    [add_btn setFrame:CGRectMake(self.view.bounds.size.width-48, self.view.bounds.size.height-200, 38, 38)];
+    [_mapView addSubview:add_btn];
+    [add_btn handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
+        NSLog(@"放大");
+        MKCoordinateRegion region = _mapView.region;
+        region.span.latitudeDelta=region.span.latitudeDelta * 0.4;
+        region.span.longitudeDelta=region.span.longitudeDelta * 0.4;
+        [_mapView setRegion:region animated:YES];
+    }];
+    
+    UIButton* min_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [min_btn setImage:[UIImage imageNamed:@"btn_narrow_normal.png"] forState:UIControlStateNormal];
+    [min_btn setImage:[UIImage imageNamed:@"btn_narrow_pressed.png"] forState:UIControlStateSelected];
+    [min_btn setFrame:CGRectMake(self.view.bounds.size.width-48, self.view.bounds.size.height-162, 38, 38)];
+    [_mapView addSubview:min_btn];
+    [min_btn handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
+        NSLog(@"缩小");
+        MKCoordinateRegion region = _mapView.region;
+        region.span.latitudeDelta=region.span.latitudeDelta * 2.0;
+        region.span.longitudeDelta=region.span.longitudeDelta * 2.0;
+        [_mapView setRegion:region animated:YES];
+    }];
+    
+
+}
+
+
 // 初始化地图
 -(void)initMap{
     
+ 
     _zoom_level = 1;
      self.title = @"朋友定位";
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
@@ -85,11 +156,14 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
         [_mapView setUserTrackingMode:MKUserTrackingModeNone animated:YES];
     }
    
+    [self initButtonOnMap];// 地图上 的按钮
+    
     [self addAnnos]; // 添加所有标注
     
     [self setupRightMenuButton];  // 显示导航栏右侧按钮
     
       [self showUserLocation];  //zoom到四环效果
+    
     
     [NSThread detachNewThreadSelector:@selector(loadGPS) toTarget:self withObject:nil];
 
@@ -170,11 +244,15 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
             break;
         }
     }
-    
-    
-    
-
 }
+
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    NSLog(@"region changed");
+}
+
+
+
+
 
 #pragma mark - 自己定义的方法
 
@@ -198,7 +276,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
         if ([annotation isKindOfClass:[MKUserLocation class]] )
         {
             
-            ((MKUserLocation *)annotation).title = @"当前位置";
+            ((MKUserLocation *)annotation).title = @"我的位置";
             //  ((MKUserLocation *)annotation).subtitle = @"中关村东路66号";
             return nil;  //return nil to use default blue dot view
         }
@@ -240,6 +318,9 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
         return nil;
     
 }
+-(void)showDetail{
+    
+}
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
@@ -257,7 +338,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
   
     // 上传经纬度
     CLLocationCoordinate2D lo = CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude);
-     NSLog(@"前%f",lo.latitude);
+//     NSLog(@"前%f",lo.latitude);
     lo = [self hhTrans_bdGPS:lo];
       NSLog(@"后%f",lo.latitude);
     NSString* str1 = [NSString stringWithFormat:@"%f",lo.latitude];
@@ -268,31 +349,30 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
    
 }
 
-
-
-
+/*
 #pragma mark - CLLocationManagerDelegate
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
    
     //当前的位置
     CLLocation* newLocation = [locations lastObject];
     NSLog(@"GPS：%f",newLocation.coordinate.latitude);
-        /*
+    
     _manager = manager;
     
     CLLocationCoordinate2D lo = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude);
    
     lo = [self hhTrans_bdGPS:lo];
-  
+    NSLog(@"2后%f",lo.latitude);
     NSString* str1 = [NSString stringWithFormat:@"%f",lo.latitude];
     NSString* str2 = [NSString stringWithFormat:@"%f",lo.longitude];
    
      // 上传坐标  （这里会与正常GPS坐标不同）
-  //  [self uploadGPSWith_latitude:str1 longitude:str2];
-    */
+    [self uploadGPSWith_latitude:str1 longitude:str2];
+    
     
    
 }
+ */
 
 //定位失败
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
@@ -569,9 +649,6 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFriends" object:self userInfo:dict2];
     
 }
-
-
-
 
 //  把火星坐标转换成百度坐标
 -(CLLocationCoordinate2D)hhTrans_bdGPS:(CLLocationCoordinate2D)fireGps
