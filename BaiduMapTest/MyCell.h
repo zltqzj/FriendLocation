@@ -18,6 +18,7 @@
 
 @property(strong,nonatomic) IBOutlet UIButton* forbidden;
 
+@property(strong,nonatomic) IBOutlet UILabel* appear;
 
 
 @end

@@ -12,10 +12,12 @@
 #import "ViewController.h"
 #import "MMExampleSideDrawerViewController.h"
 
-@interface LeftViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface LeftViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
 
 
 @property(strong,nonatomic) NSMutableArray* list;
+@property(strong,nonatomic) NSMutableArray* search_list;
+
 @property(strong,nonatomic) UITableView* myTable;
 
 @property(strong,nonatomic) NSMutableArray* forbiddenList;
@@ -33,7 +35,9 @@
 @property(weak,nonatomic) ASIFormDataRequest* forbiddenRequest;// 不让某人看见我
 @property(weak,nonatomic) ASIFormDataRequest* rm_forbiddenRequest;// 让某人看见我
 
+@property(strong,nonatomic) UISearchBar *searchBar;
 
+@property(strong,nonatomic) UISearchDisplayController *strongSearchDisplayController;
 
 
 @end

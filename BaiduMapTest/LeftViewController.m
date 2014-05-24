@@ -13,6 +13,8 @@
 @end
 
 @implementation LeftViewController
+@synthesize search_list = _search_list;
+
 @synthesize list = _list;
 @synthesize myTable = _myTable;
 @synthesize cellList = _cellList;
@@ -22,6 +24,8 @@
 @synthesize rm_forbiddenRequest = _rm_forbiddenRequest;
 @synthesize fobiddenInMyItem = _fobiddenInMyItem;
 @synthesize friendIDs = _friendIDs;
+@synthesize searchBar = _searchBar;
+@synthesize strongSearchDisplayController = _strongSearchDisplayController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,10 +56,30 @@
     _myTable.delegate = self;
     _myTable.dataSource = self;
  
+    // 初始化searchbar
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+    //  [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width-140, 44)];
+    
+    
+    self.searchBar.placeholder = @"搜索";
+    self.searchBar.delegate = self;
+    [_searchBar setShowsCancelButton:NO animated:YES];
+    [self.searchBar sizeToFit];
+    self.strongSearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+    self.searchDisplayController.searchResultsDataSource = self;
+    self.searchDisplayController.searchResultsDelegate = self;
+    self.searchDisplayController.delegate = self;
+    
+    
+    
+    self.myTable.tableHeaderView = self.searchBar;
+    
+    self.myTable.contentOffset = CGPointMake(0, CGRectGetHeight(self.searchBar.bounds));
+    
     [self.view addSubview:_myTable];
     
     
-    if (SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"7")&&[self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
+    if (SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"7") && [self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
         [self.navigationController.navigationBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]]];
     }
     
@@ -76,6 +100,10 @@
     }else{
         
     }
+    
+    
+   
+    
         
   //  [self.navigationItem setLeftBarButtonItems:@[hiddenMyself] animated:YES];
 }
@@ -179,6 +207,8 @@
     NSDictionary* dict = info.userInfo;
     _list= [dict objectForKey:@"list"];
     
+    self.search_list = [dict objectForKey:@"list"];
+    
     _forbiddenList = [dict objectForKey:@"forbidden"];
      
     _fobiddenInMyItem = [dict objectForKey:@"fobiddenInMyItem"];
@@ -187,6 +217,7 @@
     if (_list) {
         [ProgressHUD dismiss];
          [self.myTable reloadData];
+        
     }
     else{
         [ProgressHUD show:@"正在查询好友列表……"];
@@ -199,7 +230,7 @@
     [super viewDidLoad];
     
     [self initTable]; // 初始化列表
-    
+    _search_list  = [[NSMutableArray alloc] initWithCapacity:10];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFriends:) name:@"refreshFriends" object:nil];
     
     
@@ -208,25 +239,6 @@
 
 // 点击开关事件
 -(void)switch:(id)sender{
-    UISwitch* switchControl = sender;
-    
-    MapPoint* map = [[ MapPoint alloc] init];
-    map = [_list objectAtIndex:switchControl.tag];
-    
-    NSUserDefaults* user  = [NSUserDefaults standardUserDefaults];
-    
-    NSDictionary* userinfo = [NSDictionary dictionaryWithObject:map.title forKey:@"name"];
-    
-    
-    if(switchControl.on ){
-        [user setValue:@"YES" forKey:map.title];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"add" object:self userInfo:userinfo];
-    }
-    else {
-        [user setValue:@"NO" forKey:map.title];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"remove" object:self userInfo:userinfo];
-    }
     
 }
 
@@ -245,13 +257,9 @@
     if (cell == nil) {
         cell = [[MyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CustomCellIdentifier];
     }
-    
-    
+   
     NSString* friendName =[[_list objectAtIndex:indexPath.row] title];
     cell.name.text =friendName ;// cell 的朋友的名字
-    
-   
-    
     
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSString* myid = [user objectForKey:@"id"];
@@ -271,17 +279,41 @@
     
     if ([[user objectForKey:friendName] isEqualToString:@"YES"]) {
         [cell.state setOn:YES];
+        cell.appear.text = @"显示";
     }else{
         [cell.state setOn:NO];
+        cell.appear.text  = @"隐藏";
     }
    
     [_cellList addObject:cell];// 所有cell添加到数组中
      
     cell.state.tag = indexPath.row;  // 给每行设置tag值，第0行的tag为0
-    [cell.state addTarget:self action:@selector(switch:) forControlEvents:UIControlEventValueChanged];
+  //  [cell.state addTarget:self action:@selector(switch:) forControlEvents:UIControlEventValueChanged];
+    [cell.state handleControlEvent:UIControlEventValueChanged withBlock:^(id sender) {
+        UISwitch* switchControl = sender;
+        
+        MapPoint* map = [[ MapPoint alloc] init];
+        map = [_list objectAtIndex:switchControl.tag];
+        
+        NSUserDefaults* user  = [NSUserDefaults standardUserDefaults];
+        
+        NSDictionary* userinfo = [NSDictionary dictionaryWithObject:map.title forKey:@"name"];
+        
+        
+        if(switchControl.on ){
+            cell.appear.text = @"显示";
+            [user setValue:@"YES" forKey:map.title];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"add" object:self userInfo:userinfo];
+        }
+        else {
+            [user setValue:@"NO" forKey:map.title];
+             cell.appear.text = @"隐藏";
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"remove" object:self userInfo:userinfo];
+        }
+
+    }];
     
-    
-    // 点击只显示
+    // 点击定位（只显示某人）
     [cell.onlyAppear handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
          // 遍历数组，将所有开关关闭。
         MapPoint* mmp = [[MapPoint alloc] init];
@@ -293,11 +325,13 @@
         
         for (MyCell* item in _cellList) {
             [item.state setOn:NO];// 列表中的显示
+             cell.appear.text = @"隐藏";
             [user setValue:@"NO" forKey:item.name.text]; // 保存起来
              NSDictionary* userinfo = [NSDictionary dictionaryWithObject:item.name.text forKey:@"name"];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"remove" object:self userInfo:userinfo];// 地图中的显示
         }
         [cell.state setOn:YES];
+         cell.appear.text = @"显示";
         [user setValue:@"YES" forKey:cell.name.text];
      
          NSDictionary* userinfo = [NSDictionary dictionaryWithObject:cell.name.text forKey:@"name"];
@@ -411,6 +445,50 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 80.0;
 }
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar  // called when cancel button pressed
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+   // if ([_searchBar.text isEqualToString:@""] || _searchBar.text == nil ) {
+    _list = [NSMutableArray arrayWithArray:_search_list];
+   // }
+    
+    for (int i=0; i<_list.count; i++) {
+        NSString* str = [[_list objectAtIndex:i] title];
+        if ([searchString isEqualToString:@""]) {
+            break;
+        }
+        if ([str hasPrefix:searchString]) {
+            
+        }
+        else{
+            [_list removeObjectAtIndex:i];
+            i--;
+        }
+    }
+    
+    
+    [self.myTable reloadData];
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    NSLog(@"%dl========",searchOption);
+    return YES;
+}
+
+
+#pragma mark - UISearchDisplayDelegate
+
+
+
 
 - (void)didReceiveMemoryWarning
 {

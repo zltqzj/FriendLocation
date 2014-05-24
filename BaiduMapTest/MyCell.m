@@ -13,6 +13,7 @@
 @synthesize state = _state;
 @synthesize onlyAppear = _onlyAppear;
 @synthesize forbidden = _forbidden;
+@synthesize appear = _appear;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -38,11 +39,7 @@
     return self;
 }
 
-
-
-
-
-
+ 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];

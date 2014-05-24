@@ -136,6 +136,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
  
     _zoom_level = 1;
      self.title = @"朋友定位";
+    
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
          [self.navigationController.navigationBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]]];
         
@@ -269,17 +270,13 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 
 #pragma mark - MKMapViewDelegate
 
--(MKAnnotationView*)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
-{
-    
-    
-        if ([annotation isKindOfClass:[MKUserLocation class]] )
-        {
+-(MKAnnotationView*)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    if ([annotation isKindOfClass:[MKUserLocation class]] ){
             
-            ((MKUserLocation *)annotation).title = @"我的位置";
-            //  ((MKUserLocation *)annotation).subtitle = @"中关村东路66号";
-            return nil;  //return nil to use default blue dot view
-        }
+        ((MKUserLocation *)annotation).title = @"我的位置";
+        //  ((MKUserLocation *)annotation).subtitle = @"中关村东路66号";
+        return nil;  //return nil to use default blue dot view
+    }
    
     
     
@@ -640,13 +637,15 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 //右侧按钮点击事件
 -(void)rightDrawerButtonPress:(id)sender{
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
-    
-    NSMutableDictionary* dict2 = [[NSMutableDictionary alloc] initWithCapacity:10];
-    [dict2 setObject:_list forKey:@"list"];
-    [dict2 setObject:_forbiddenList forKey:@"forbidden"];
-    [dict2 setObject:_fobiddenInMyItem forKey:@"fobiddenInMyItem"];
-    [dict2 setObject:_friendIDs forKey:@"friendIDs"];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFriends" object:self userInfo:dict2];
+    if (_list&& _forbiddenList&&_fobiddenInMyItem&&_friendIDs) {
+        NSMutableDictionary* dict2 = [[NSMutableDictionary alloc] initWithCapacity:10];
+        [dict2 setObject:_list forKey:@"list"];
+        [dict2 setObject:_forbiddenList forKey:@"forbidden"];
+        [dict2 setObject:_fobiddenInMyItem forKey:@"fobiddenInMyItem"];
+        [dict2 setObject:_friendIDs forKey:@"friendIDs"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshFriends" object:self userInfo:dict2];
+    }
+   
     
 }
 
