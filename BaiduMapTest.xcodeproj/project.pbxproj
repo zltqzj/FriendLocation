@@ -265,12 +265,12 @@
 		1CE175D71930E6C4004B8C06 /* HanyuPinyinOutputFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HanyuPinyinOutputFormat.m; sourceTree = "<group>"; };
 		1CE175D81930E6C4004B8C06 /* NSString+PinYin4Cocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PinYin4Cocoa.h"; sourceTree = "<group>"; };
 		1CE175D91930E6C4004B8C06 /* NSString+PinYin4Cocoa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PinYin4Cocoa.m"; sourceTree = "<group>"; };
-		1CE175DA1930E6C4004B8C06 /* PinYin4Objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinYin4Objc.h; sourceTree = "<group>"; };
 		1CE175DB1930E6C4004B8C06 /* PinyinFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinyinFormatter.h; sourceTree = "<group>"; };
 		1CE175DC1930E6C4004B8C06 /* PinyinFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinyinFormatter.m; sourceTree = "<group>"; };
 		1CE175DD1930E6C4004B8C06 /* PinyinHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinyinHelper.h; sourceTree = "<group>"; };
 		1CE175DE1930E6C4004B8C06 /* PinyinHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinyinHelper.m; sourceTree = "<group>"; };
 		1CE175E41930E6E3004B8C06 /* unicode_to_hanyu_pinyin.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = unicode_to_hanyu_pinyin.txt; sourceTree = "<group>"; };
+		1CE175E61930E9AC004B8C06 /* PinYin4Objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PinYin4Objc.h; sourceTree = "<group>"; };
 		1CF0892C191B1A9E000D9734 /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
 		1CF0892D191B1A9E000D9734 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
 		1CF0892E191B1A9E000D9734 /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerController.h; sourceTree = "<group>"; };
@@ -624,11 +624,11 @@
 				1CE175D71930E6C4004B8C06 /* HanyuPinyinOutputFormat.m */,
 				1CE175D81930E6C4004B8C06 /* NSString+PinYin4Cocoa.h */,
 				1CE175D91930E6C4004B8C06 /* NSString+PinYin4Cocoa.m */,
-				1CE175DA1930E6C4004B8C06 /* PinYin4Objc.h */,
 				1CE175DB1930E6C4004B8C06 /* PinyinFormatter.h */,
 				1CE175DC1930E6C4004B8C06 /* PinyinFormatter.m */,
 				1CE175DD1930E6C4004B8C06 /* PinyinHelper.h */,
 				1CE175DE1930E6C4004B8C06 /* PinyinHelper.m */,
+				1CE175E61930E9AC004B8C06 /* PinYin4Objc.h */,
 			);
 			path = chinese4pinyin;
 			sourceTree = "<group>";
