@@ -82,6 +82,12 @@
 		1C9418AF191CC4A900E36E14 /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9418AD191CC4A900E36E14 /* ProgressHUD.m */; };
 		1CE175CF1930E1BF004B8C06 /* pinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 1CE175CE1930E1BF004B8C06 /* pinyin.c */; };
 		1CE175D21930E1F8004B8C06 /* NameIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE175D11930E1F8004B8C06 /* NameIndex.m */; };
+		1CE175DF1930E6C4004B8C06 /* ChineseToPinyinResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE175D51930E6C4004B8C06 /* ChineseToPinyinResource.m */; };
+		1CE175E01930E6C4004B8C06 /* HanyuPinyinOutputFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE175D71930E6C4004B8C06 /* HanyuPinyinOutputFormat.m */; };
+		1CE175E11930E6C4004B8C06 /* NSString+PinYin4Cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE175D91930E6C4004B8C06 /* NSString+PinYin4Cocoa.m */; };
+		1CE175E21930E6C4004B8C06 /* PinyinFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE175DC1930E6C4004B8C06 /* PinyinFormatter.m */; };
+		1CE175E31930E6C4004B8C06 /* PinyinHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CE175DE1930E6C4004B8C06 /* PinyinHelper.m */; };
+		1CE175E51930E6E3004B8C06 /* unicode_to_hanyu_pinyin.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1CE175E41930E6E3004B8C06 /* unicode_to_hanyu_pinyin.txt */; };
 		1CF08936191B1A9E000D9734 /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0892D191B1A9E000D9734 /* MMDrawerBarButtonItem.m */; };
 		1CF08937191B1A9E000D9734 /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0892F191B1A9E000D9734 /* MMDrawerController.m */; };
 		1CF08938191B1A9E000D9734 /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF08931191B1A9E000D9734 /* MMDrawerVisualState.m */; };
@@ -253,6 +259,18 @@
 		1CE175CE1930E1BF004B8C06 /* pinyin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pinyin.c; sourceTree = "<group>"; };
 		1CE175D01930E1F8004B8C06 /* NameIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NameIndex.h; sourceTree = "<group>"; };
 		1CE175D11930E1F8004B8C06 /* NameIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NameIndex.m; sourceTree = "<group>"; };
+		1CE175D41930E6C4004B8C06 /* ChineseToPinyinResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyinResource.h; sourceTree = "<group>"; };
+		1CE175D51930E6C4004B8C06 /* ChineseToPinyinResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyinResource.m; sourceTree = "<group>"; };
+		1CE175D61930E6C4004B8C06 /* HanyuPinyinOutputFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HanyuPinyinOutputFormat.h; sourceTree = "<group>"; };
+		1CE175D71930E6C4004B8C06 /* HanyuPinyinOutputFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HanyuPinyinOutputFormat.m; sourceTree = "<group>"; };
+		1CE175D81930E6C4004B8C06 /* NSString+PinYin4Cocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PinYin4Cocoa.h"; sourceTree = "<group>"; };
+		1CE175D91930E6C4004B8C06 /* NSString+PinYin4Cocoa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PinYin4Cocoa.m"; sourceTree = "<group>"; };
+		1CE175DA1930E6C4004B8C06 /* PinYin4Objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinYin4Objc.h; sourceTree = "<group>"; };
+		1CE175DB1930E6C4004B8C06 /* PinyinFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinyinFormatter.h; sourceTree = "<group>"; };
+		1CE175DC1930E6C4004B8C06 /* PinyinFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinyinFormatter.m; sourceTree = "<group>"; };
+		1CE175DD1930E6C4004B8C06 /* PinyinHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinyinHelper.h; sourceTree = "<group>"; };
+		1CE175DE1930E6C4004B8C06 /* PinyinHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinyinHelper.m; sourceTree = "<group>"; };
+		1CE175E41930E6E3004B8C06 /* unicode_to_hanyu_pinyin.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = unicode_to_hanyu_pinyin.txt; sourceTree = "<group>"; };
 		1CF0892C191B1A9E000D9734 /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
 		1CF0892D191B1A9E000D9734 /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
 		1CF0892E191B1A9E000D9734 /* MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerController.h; sourceTree = "<group>"; };
@@ -343,6 +361,7 @@
 		1C0E21E0191A161700263862 /* third */ = {
 			isa = PBXGroup;
 			children = (
+				1CE175D31930E6C4004B8C06 /* chinese4pinyin */,
 				1CE175C719304BFD004B8C06 /* CustomUI */,
 				1CE175C619304BEB004B8C06 /* utils */,
 				1C9418AA191CC4A900E36E14 /* ProgressHUD */,
@@ -595,6 +614,25 @@
 			name = BaseViewController;
 			sourceTree = "<group>";
 		};
+		1CE175D31930E6C4004B8C06 /* chinese4pinyin */ = {
+			isa = PBXGroup;
+			children = (
+				1CE175E41930E6E3004B8C06 /* unicode_to_hanyu_pinyin.txt */,
+				1CE175D41930E6C4004B8C06 /* ChineseToPinyinResource.h */,
+				1CE175D51930E6C4004B8C06 /* ChineseToPinyinResource.m */,
+				1CE175D61930E6C4004B8C06 /* HanyuPinyinOutputFormat.h */,
+				1CE175D71930E6C4004B8C06 /* HanyuPinyinOutputFormat.m */,
+				1CE175D81930E6C4004B8C06 /* NSString+PinYin4Cocoa.h */,
+				1CE175D91930E6C4004B8C06 /* NSString+PinYin4Cocoa.m */,
+				1CE175DA1930E6C4004B8C06 /* PinYin4Objc.h */,
+				1CE175DB1930E6C4004B8C06 /* PinyinFormatter.h */,
+				1CE175DC1930E6C4004B8C06 /* PinyinFormatter.m */,
+				1CE175DD1930E6C4004B8C06 /* PinyinHelper.h */,
+				1CE175DE1930E6C4004B8C06 /* PinyinHelper.m */,
+			);
+			path = chinese4pinyin;
+			sourceTree = "<group>";
+		};
 		1CF0892B191B1A9E000D9734 /* MMUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,6 +856,7 @@
 				1CFCD26D192F8E9700234FEC /* btn_narrow_normal.png in Resources */,
 				1CF0A2F91918B8070046E4B8 /* Images.xcassets in Resources */,
 				1C9418AE191CC4A900E36E14 /* ProgressHUD.bundle in Resources */,
+				1CE175E51930E6E3004B8C06 /* unicode_to_hanyu_pinyin.txt in Resources */,
 				1CFCD278192FA0A800234FEC /* set.png in Resources */,
 				1C9418A0191CB77000E36E14 /* Icon-Small.png in Resources */,
 				1C941892191CB77000E36E14 /* Default-Landscape@2x~ipad.png in Resources */,
@@ -867,6 +906,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CE175E31930E6C4004B8C06 /* PinyinHelper.m in Sources */,
 				1C0E2272191A20AD00263862 /* QCheckBox.m in Sources */,
 				1CF0A2F71918B8070046E4B8 /* ViewController.m in Sources */,
 				1C0E220E191A161700263862 /* CommonUtils.m in Sources */,
@@ -878,8 +918,10 @@
 				1CF0893A191B1A9E000D9734 /* UIViewController+MMDrawerController.m in Sources */,
 				1C0E221C191A161700263862 /* MapPoint.m in Sources */,
 				1C0E221D191A161700263862 /* MJGeocoder.m in Sources */,
+				1CE175DF1930E6C4004B8C06 /* ChineseToPinyinResource.m in Sources */,
 				1C0E221F191A161700263862 /* KMLParser.m in Sources */,
 				1C0E226C191A20AD00263862 /* ASIInputStream.m in Sources */,
+				1CE175E11930E6C4004B8C06 /* NSString+PinYin4Cocoa.m in Sources */,
 				1C0E2267191A20AD00263862 /* ASIDataCompressor.m in Sources */,
 				1CE175CF1930E1BF004B8C06 /* pinyin.c in Sources */,
 				1CF08938191B1A9E000D9734 /* MMDrawerVisualState.m in Sources */,
@@ -890,12 +932,14 @@
 				1CF08937191B1A9E000D9734 /* MMDrawerController.m in Sources */,
 				1C0E2278191A20AD00263862 /* SBJsonParser.m in Sources */,
 				1C0A352919244DD3008CEEF8 /* MMSideDrawerTableViewCell.m in Sources */,
+				1CE175E21930E6C4004B8C06 /* PinyinFormatter.m in Sources */,
 				1CF08939191B1A9E000D9734 /* MMExampleDrawerVisualStateManager.m in Sources */,
 				1C0E226A191A20AD00263862 /* ASIFormDataRequest.m in Sources */,
 				1CE175D21930E1F8004B8C06 /* NameIndex.m in Sources */,
 				1C0E226F191A20AD00263862 /* BUIControl.m in Sources */,
 				1C0E226B191A20AD00263862 /* ASIHTTPRequest.m in Sources */,
 				1C9418AF191CC4A900E36E14 /* ProgressHUD.m in Sources */,
+				1CE175E01930E6C4004B8C06 /* HanyuPinyinOutputFormat.m in Sources */,
 				1C0266781923761B0062C866 /* MMExampleSideDrawerViewController.m in Sources */,
 				1C0A352C19244DF2008CEEF8 /* MMCenterTableViewCell.m in Sources */,
 				1CF0893D191B1BF1000D9734 /* LeftViewController.m in Sources */,
