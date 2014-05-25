@@ -43,6 +43,7 @@
     [_list addObject:@"我的周边"];
     [_list addObject:@"清除我的位置"];
     [_list addObject:@"高级设置"]; // 头像，昵称，反馈，分享
+     [_list addObject:@"关注微信"];
      [_list addObject:@"分享APP"];
     [_list addObject:@"退出账号"];
 

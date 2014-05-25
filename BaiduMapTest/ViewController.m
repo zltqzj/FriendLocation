@@ -278,8 +278,6 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
         return nil;  //return nil to use default blue dot view
     }
    
-    
-    
     if ([annotation isKindOfClass:[MapPoint class]]) {
        
         
@@ -297,9 +295,46 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
            // NSLog(@"副标题%@",[annotation subtitle]);
             
             UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-            [rightButton addTarget:self
-                            action:@selector(showDetail)
-                  forControlEvents:UIControlEventTouchUpInside];
+          //  [rightButton addTarget:self action:@selector(showDetail)forControlEvents:UIControlEventTouchUpInside];
+            [rightButton handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
+                NSLog(@"*********%@",[annotation title]);
+                UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 200)];
+                UILabel* name = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 150, 44)];
+                name.text = [annotation title];
+                name.font = [UIFont  systemFontOfSize:19];
+                name.textColor = [UIColor whiteColor];
+                [contentView addSubview:name];
+                
+                UILabel* location = [[UILabel alloc] initWithFrame:CGRectMake(30, 50, contentView.bounds.size.width, 44)];
+                location.font = [UIFont systemFontOfSize:16];
+                location.textColor = [UIColor whiteColor];
+                location.text = @"中关村东路66号";
+                [contentView addSubview:location];
+                
+                
+                UIButton* chat_btn = [UIButton buttonWithType:UIButtonTypeSystem];
+                [chat_btn setFrame:CGRectMake(20, 100, 60, 44)];
+                //[chat_btn setImage:[UIImage imageNamed:@"tracebg.png"] forState:UIControlStateNormal];
+                [chat_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [chat_btn setTitle:@"对话" forState:UIControlStateNormal];
+                [contentView addSubview:chat_btn];
+                
+                UIButton* trace_btn = [UIButton buttonWithType:UIButtonTypeSystem];
+                [trace_btn setFrame:CGRectMake(90, 100, 60, 44)];
+                [trace_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [trace_btn setTitle:@"足迹" forState:UIControlStateNormal];
+                [contentView addSubview:trace_btn];
+                
+                UIButton* road_btn = [UIButton buttonWithType:UIButtonTypeSystem];
+                [road_btn setFrame:CGRectMake(160, 100, 60, 44)];
+                [road_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [road_btn setTitle:@"路径" forState:UIControlStateNormal];
+                [contentView addSubview:road_btn];
+                
+                
+                [[KGModal sharedInstance] showWithContentView:contentView andAnimated:YES];
+
+            }];
             
             customPinView.rightCalloutAccessoryView = rightButton;
             
@@ -316,10 +351,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     
 }
 -(void)showDetail{
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 200)];
-    
-    [[KGModal sharedInstance] showWithContentView:contentView andAnimated:YES];
-}
+    }
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
