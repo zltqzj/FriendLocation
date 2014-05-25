@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "JSON.h"
 #import "MMDrawerBarButtonItem.h"
-#import "LeftViewController.h"
+#import "RightViewController.h"
 #import "LoginViewController.h"
 
 typedef NS_ENUM(NSInteger, MMCenterViewControllerSection){
@@ -316,12 +316,15 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     
 }
 -(void)showDetail{
+    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 200)];
     
+    [[KGModal sharedInstance] showWithContentView:contentView andAnimated:YES];
 }
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    NSLog(@"annoSelected");
+    NSLog(@"annoSelected");// 对话，足迹，路线
+   
 }
 
 
@@ -406,7 +409,8 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 
 // 导航栏右侧按钮触发的事件
 -(void)back{
-    
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+    /*
     UIStoryboard* sbd = nil;
     if (IS_IPHONE) {
         sbd  = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
@@ -418,6 +422,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:login];
     
     [self presentViewController:nav animated:YES completion:nil];
+     */
 }
 
 
@@ -425,7 +430,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 -(void)setupRightMenuButton{
     
     // 导航栏左侧按钮设置
-    UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
+    UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
     [f setTintColor:[UIColor blackColor]];
     
     self.navigationItem.leftBarButtonItems = @[f];

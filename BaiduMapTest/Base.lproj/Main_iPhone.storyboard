@@ -100,10 +100,10 @@
             </objects>
             <point key="canvasLocation" x="1345" y="-66"/>
         </scene>
-        <!--View Controller-->
+        <!--Left View Controller-->
         <scene sceneID="RxC-dL-EWS">
             <objects>
-                <viewController id="AqW-Gb-2it" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="left" id="AqW-Gb-2it" customClass="LeftViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XnA-A6-OBB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -128,10 +128,10 @@
             </objects>
             <point key="canvasLocation" x="1763" y="-10"/>
         </scene>
-        <!--Left View Controller-->
+        <!--Right View Controller-->
         <scene sceneID="dd0-ZE-LnS">
             <objects>
-                <viewController storyboardIdentifier="left" id="brq-RU-Rba" customClass="LeftViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="right" id="brq-RU-Rba" customClass="RightViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vei-BV-PFE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

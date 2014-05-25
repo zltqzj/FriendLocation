@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1C0266781923761B0062C866 /* MMExampleSideDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0266771923761B0062C866 /* MMExampleSideDrawerViewController.m */; };
+		1C038B0D1931A59500FCF327 /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C038B0C1931A59500FCF327 /* LeftViewController.m */; };
+		1C038B101931FA7500FCF327 /* KGModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C038B0F1931FA7500FCF327 /* KGModal.m */; };
 		1C0A352619244DAD008CEEF8 /* MMTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352519244DAD008CEEF8 /* MMTableViewCell.m */; };
 		1C0A352919244DD3008CEEF8 /* MMSideDrawerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352819244DD3008CEEF8 /* MMSideDrawerTableViewCell.m */; };
 		1C0A352C19244DF2008CEEF8 /* MMCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A352B19244DF2008CEEF8 /* MMCenterTableViewCell.m */; };
@@ -93,7 +95,7 @@
 		1CF08938191B1A9E000D9734 /* MMDrawerVisualState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF08931191B1A9E000D9734 /* MMDrawerVisualState.m */; };
 		1CF08939191B1A9E000D9734 /* MMExampleDrawerVisualStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF08933191B1A9E000D9734 /* MMExampleDrawerVisualStateManager.m */; };
 		1CF0893A191B1A9E000D9734 /* UIViewController+MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF08935191B1A9E000D9734 /* UIViewController+MMDrawerController.m */; };
-		1CF0893D191B1BF1000D9734 /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0893C191B1BF1000D9734 /* LeftViewController.m */; };
+		1CF0893D191B1BF1000D9734 /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF0893C191B1BF1000D9734 /* RightViewController.m */; };
 		1CF08942191B56F6000D9734 /* MyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF08941191B56F6000D9734 /* MyCell.m */; };
 		1CF08944191B5725000D9734 /* My_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CF08943191B5725000D9734 /* My_ipad.xib */; };
 		1CF08946191B6279000D9734 /* My_iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1CF08945191B6279000D9734 /* My_iphone.xib */; };
@@ -140,6 +142,10 @@
 /* Begin PBXFileReference section */
 		1C0266761923761B0062C866 /* MMExampleSideDrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMExampleSideDrawerViewController.h; sourceTree = "<group>"; };
 		1C0266771923761B0062C866 /* MMExampleSideDrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleSideDrawerViewController.m; sourceTree = "<group>"; };
+		1C038B0B1931A59500FCF327 /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		1C038B0C1931A59500FCF327 /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
+		1C038B0E1931FA7500FCF327 /* KGModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGModal.h; sourceTree = "<group>"; };
+		1C038B0F1931FA7500FCF327 /* KGModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGModal.m; sourceTree = "<group>"; };
 		1C0A352419244DAD008CEEF8 /* MMTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMTableViewCell.h; sourceTree = "<group>"; };
 		1C0A352519244DAD008CEEF8 /* MMTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMTableViewCell.m; sourceTree = "<group>"; };
 		1C0A352719244DD3008CEEF8 /* MMSideDrawerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerTableViewCell.h; sourceTree = "<group>"; };
@@ -281,8 +287,8 @@
 		1CF08933191B1A9E000D9734 /* MMExampleDrawerVisualStateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMExampleDrawerVisualStateManager.m; sourceTree = "<group>"; };
 		1CF08934191B1A9E000D9734 /* UIViewController+MMDrawerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MMDrawerController.h"; sourceTree = "<group>"; };
 		1CF08935191B1A9E000D9734 /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
-		1CF0893B191B1BF1000D9734 /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
-		1CF0893C191B1BF1000D9734 /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
+		1CF0893B191B1BF1000D9734 /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightViewController.h; sourceTree = "<group>"; };
+		1CF0893C191B1BF1000D9734 /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
 		1CF08940191B56F6000D9734 /* MyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCell.h; path = ../BaiduMapTest/MyCell.h; sourceTree = "<group>"; };
 		1CF08941191B56F6000D9734 /* MyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyCell.m; path = ../BaiduMapTest/MyCell.m; sourceTree = "<group>"; };
 		1CF08943191B5725000D9734 /* My_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = My_ipad.xib; path = ../BaiduMapTest/My_ipad.xib; sourceTree = "<group>"; };
@@ -573,6 +579,8 @@
 				1CE175CE1930E1BF004B8C06 /* pinyin.c */,
 				1CE175D01930E1F8004B8C06 /* NameIndex.h */,
 				1CE175D11930E1F8004B8C06 /* NameIndex.m */,
+				1C038B0E1931FA7500FCF327 /* KGModal.h */,
+				1C038B0F1931FA7500FCF327 /* KGModal.m */,
 			);
 			name = utils;
 			sourceTree = "<group>";
@@ -591,10 +599,12 @@
 		1CE175C819304C1D004B8C06 /* MainViewController */ = {
 			isa = PBXGroup;
 			children = (
-				1CF0893B191B1BF1000D9734 /* LeftViewController.h */,
-				1CF0893C191B1BF1000D9734 /* LeftViewController.m */,
+				1CF0893B191B1BF1000D9734 /* RightViewController.h */,
+				1CF0893C191B1BF1000D9734 /* RightViewController.m */,
 				1CF0A2F51918B8070046E4B8 /* ViewController.h */,
 				1CF0A2F61918B8070046E4B8 /* ViewController.m */,
+				1C038B0B1931A59500FCF327 /* LeftViewController.h */,
+				1C038B0C1931A59500FCF327 /* LeftViewController.m */,
 			);
 			name = MainViewController;
 			sourceTree = "<group>";
@@ -931,6 +941,7 @@
 				1C0E2271191A20AD00263862 /* ZXObject.m in Sources */,
 				1CF08937191B1A9E000D9734 /* MMDrawerController.m in Sources */,
 				1C0E2278191A20AD00263862 /* SBJsonParser.m in Sources */,
+				1C038B0D1931A59500FCF327 /* LeftViewController.m in Sources */,
 				1C0A352919244DD3008CEEF8 /* MMSideDrawerTableViewCell.m in Sources */,
 				1CE175E21930E6C4004B8C06 /* PinyinFormatter.m in Sources */,
 				1CF08939191B1A9E000D9734 /* MMExampleDrawerVisualStateManager.m in Sources */,
@@ -942,7 +953,7 @@
 				1CE175E01930E6C4004B8C06 /* HanyuPinyinOutputFormat.m in Sources */,
 				1C0266781923761B0062C866 /* MMExampleSideDrawerViewController.m in Sources */,
 				1C0A352C19244DF2008CEEF8 /* MMCenterTableViewCell.m in Sources */,
-				1CF0893D191B1BF1000D9734 /* LeftViewController.m in Sources */,
+				1CF0893D191B1BF1000D9734 /* RightViewController.m in Sources */,
 				1C0E228B191A2DF000263862 /* LoginViewController.m in Sources */,
 				1CF08949191B8500000D9734 /* RegistViewController.m in Sources */,
 				1C0E2220191A161700263862 /* RouteSearch.m in Sources */,
@@ -956,6 +967,7 @@
 				1C0E222B191A1C1200263862 /* MapAddress.m in Sources */,
 				1C0E2270191A20AD00263862 /* BUIView.m in Sources */,
 				1C0E2266191A20AD00263862 /* ASIAuthenticationDialog.m in Sources */,
+				1C038B101931FA7500FCF327 /* KGModal.m in Sources */,
 				1C0A352F19244E12008CEEF8 /* MMSideDrawerSectionHeaderView.m in Sources */,
 				1CF0A2EA1918B8070046E4B8 /* main.m in Sources */,
 				1C0A35321924AF00008CEEF8 /* MMLogoView.m in Sources */,
@@ -1102,14 +1114,14 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: peng yuan (HLE9E7RHAC)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dongguan Chanda Sports Media Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BaiduMapTest/BaiduMapTest-Prefix.pch";
 				INFOPLIST_FILE = "BaiduMapTest/BaiduMapTest-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4E788E64-027D-4FFD-84DF-3272336543F6";
+				PROVISIONING_PROFILE = "C77A93E0-6605-4D2F-8C69-38748CB56A72";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1120,14 +1132,14 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: peng yuan (HLE9E7RHAC)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Dongguan Chanda Sports Media Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BaiduMapTest/BaiduMapTest-Prefix.pch";
 				INFOPLIST_FILE = "BaiduMapTest/BaiduMapTest-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4E788E64-027D-4FFD-84DF-3272336543F6";
+				PROVISIONING_PROFILE = "C77A93E0-6605-4D2F-8C69-38748CB56A72";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

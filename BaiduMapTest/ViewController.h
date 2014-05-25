@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "KGModal.h"
 #import "MapPoint.h"
 #import "MapAddress.h"
 

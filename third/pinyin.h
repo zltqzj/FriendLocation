@@ -8,7 +8,7 @@
  */
 
 /*
- * // Example
+ * // Example   按拼音排序
  *
  * #import "pinyin.h"
  *

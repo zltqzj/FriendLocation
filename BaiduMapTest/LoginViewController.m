@@ -90,20 +90,23 @@
                     ViewController* view =  [sbd instantiateViewControllerWithIdentifier:@"map"];
                     UINavigationController* centerView = [[UINavigationController alloc] initWithRootViewController:view];
                     
-                    
-
-                    
                     LeftViewController* left = [sbd instantiateViewControllerWithIdentifier:@"left"];
                     UINavigationController* leftView = [[UINavigationController alloc] initWithRootViewController:left];
                     
+                    RightViewController* right = [sbd instantiateViewControllerWithIdentifier:@"right"];
+                    UINavigationController* rightView = [[UINavigationController alloc] initWithRootViewController:right];
                     
-                    MMDrawerController* draw= [[MMDrawerController alloc] initWithCenterViewController:centerView rightDrawerViewController:leftView];
+                    MMDrawerController* draw = [[MMDrawerController alloc] initWithCenterViewController:centerView leftDrawerViewController:leftView rightDrawerViewController:rightView];
+                 //   MMDrawerController* draw= [[MMDrawerController alloc] initWithCenterViewController:centerView rightDrawerViewController:rightView];
                     if (IS_IPAD) {
                         [draw setMaximumRightDrawerWidth:600.0];
+                        [draw setMaximumLeftDrawerWidth:600];
 
                     }
-                    else
+                    else{
                         [draw setMaximumRightDrawerWidth:280.0];
+                        [draw setMaximumLeftDrawerWidth:160.0];
+                    }
                     [draw setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
                     [draw setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
                     [draw setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {

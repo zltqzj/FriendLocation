@@ -102,10 +102,10 @@
             </objects>
             <point key="canvasLocation" x="1092" y="-1130"/>
         </scene>
-        <!--Left View Controller-->
+        <!--Right View Controller-->
         <scene sceneID="ibW-Jb-QI0">
             <objects>
-                <viewController storyboardIdentifier="left" id="RAD-KC-aQH" customClass="LeftViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="left" id="RAD-KC-aQH" customClass="RightViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kiL-1j-kET">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
