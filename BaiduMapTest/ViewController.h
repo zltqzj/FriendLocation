@@ -34,5 +34,5 @@
 @property(strong,nonatomic)CLLocationManager* manager;
 
 -(void)refresh;
- 
+-(void)deleteAnnos;
 @end

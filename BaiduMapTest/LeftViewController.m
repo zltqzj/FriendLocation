@@ -15,6 +15,7 @@
 @implementation LeftViewController
 @synthesize list = _list;
 @synthesize myTable  = _myTable;
+@synthesize portrait = _portrait;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,7 +30,17 @@
 {
     [super viewDidLoad];
     self.title = @"个人设置";
-    _myTable  = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
+        [self.navigationController.navigationBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]]];
+        
+    }
+        [self.navigationController.navigationBar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
+    UIImage* por = [UIImage imageNamed:@"avatar.png"];
+    _portrait = [[UIImageView alloc] initWithImage:por];
+    [_portrait setFrame:CGRectMake(30, 30, 48, 48)];
+    [self.view addSubview:_portrait];
+    _myTable  = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, self.view.bounds.size.width, self.view.bounds.size.height-160) style:UITableViewStylePlain];
+    
     //  [_mytable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     _myTable.delegate = self;
     _myTable.dataSource = self;
@@ -74,6 +85,29 @@
     
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 7) {
+        NSLog(@"退出");
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"id"];
+        UIStoryboard* sb = nil;
+        if (IS_IPHONE) {
+            sb  = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        }
+        if (IS_IPAD) {
+            sb = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        }
+        
+        ViewController* center = [sb instantiateViewControllerWithIdentifier:@"map"];
+        UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:center];
+        [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
+        LoginViewController* login = [sb instantiateViewControllerWithIdentifier:@"login"];
+        UINavigationController* navLogin = [[UINavigationController alloc] initWithRootViewController:login];
+        
+        [self presentViewController:navLogin animated:YES completion:nil];
+    }
+}
+
 
 - (void)didReceiveMemoryWarning
 {

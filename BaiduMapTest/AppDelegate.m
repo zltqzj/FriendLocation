@@ -26,8 +26,6 @@
     
     _updateReq = request;
     
-    
-    
     if (_updateReq) {
         [_updateReq startAsynchronous];
         
@@ -65,7 +63,6 @@
             
         }];
         [_updateReq setFailedBlock:^{
-            //  [ProgressHUD showError:@"请检查网络"];
             NSLog(@"%@",[_updateReq responseString]);
         }];
 
@@ -100,7 +97,41 @@
     _hostReach  = [Reachability reachabilityWithHostname:@"www.baidu.com"];
     [_hostReach startNotifier];
  
+ 
+    
+    UIStoryboard* sb = nil;
+    if (IS_IPHONE) {
+        sb  = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    }
+    if (IS_IPAD) {
+        sb = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    }
+    LeftViewController* left = [sb instantiateViewControllerWithIdentifier:@"left"];
+    UINavigationController* leftNav = [[UINavigationController alloc] initWithRootViewController:left];
+    
+    RightViewController* right = [sb instantiateViewControllerWithIdentifier:@"right"];
+    UINavigationController* rightNav = [[UINavigationController alloc] initWithRootViewController:right];
 
+    ViewController* center = [sb instantiateViewControllerWithIdentifier:@"map"];
+    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:center];
+    MMDrawerController* drawerController = [[MMDrawerController alloc] initWithCenterViewController:nav leftDrawerViewController:leftNav rightDrawerViewController:rightNav];
+    [drawerController setMaximumLeftDrawerWidth:160];
+    [drawerController setMaximumRightDrawerWidth:280];
+    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    [drawerController
+     setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+         MMDrawerControllerDrawerVisualStateBlock block;
+         block = [[MMExampleDrawerVisualStateManager sharedManager]
+                  drawerVisualStateBlockForDrawerSide:drawerSide];
+         if(block){
+             block(drawerController, drawerSide, percentVisible);
+         }
+     }];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self.window setRootViewController:drawerController];
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
     // 推送内容有关
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
 
@@ -130,6 +161,7 @@
     [self GetUpdate]; // 检查更新
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     [user removeObjectForKey:@"one_la"];
+     [user removeObjectForKey:@"one_name"];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

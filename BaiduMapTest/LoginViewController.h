@@ -7,18 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "SBJSON.h"
 #import "ViewController.h"
 #import "RightViewController.h"
 #import "LeftViewController.h"
 #import "MMDrawerController.h"
 #import "MMExampleDrawerVisualStateManager.h"
+
 @interface LoginViewController : UIViewController<UITextFieldDelegate>
 
 @property(weak,nonatomic) ASIFormDataRequest* login_request;
-
-
 
 @property(strong,nonatomic) IBOutlet UITextField* textfield;
 

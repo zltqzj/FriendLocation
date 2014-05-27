@@ -125,9 +125,7 @@
                       [self.navigationController.navigationBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]]];
 
                     }
-//                    [self.navigationController pushViewController:view animated:YES];
-                    
-                  // 修改导航栏返回按钮
+ 
                     
                 }
                 
@@ -151,14 +149,24 @@
     return self;
 }
 
+-(IBAction)back:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     _textfield.delegate = self;
     _textfield.clearButtonMode = UITextFieldViewModeAlways;
+     [self.navigationController.navigationBar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
     self.title = @"登陆";
+    // 导航栏左侧按钮
+    UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
+    [f setTintColor:[UIColor whiteColor]];
     
-    if (SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"7")&&[self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
+    self.navigationItem.leftBarButtonItems = @[f];
+    
+    if (SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"7") && [self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
         [self.navigationController.navigationBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]]];
     }
     

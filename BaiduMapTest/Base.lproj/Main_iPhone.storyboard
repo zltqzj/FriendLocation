@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="NP7-1D-uSY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
@@ -98,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1345" y="-66"/>
+            <point key="canvasLocation" x="873" y="-118"/>
         </scene>
         <!--Left View Controller-->
         <scene sceneID="RxC-dL-EWS">
@@ -107,12 +107,18 @@
                     <view key="view" contentMode="scaleToFill" id="XnA-A6-OBB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar.png" id="FWa-lL-WNE">
+                                <rect key="frame" x="32" y="70" width="80" height="76"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2vF-73-r7C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="928" y="629"/>
+            <point key="canvasLocation" x="832" y="637"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="J2K-6V-7sf">
@@ -126,7 +132,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7db-Rl-SDB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1763" y="-10"/>
+            <point key="canvasLocation" x="1439" y="-102"/>
         </scene>
         <!--Right View Controller-->
         <scene sceneID="dd0-ZE-LnS">
@@ -142,26 +148,9 @@
             </objects>
             <point key="canvasLocation" x="1398" y="637"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="x1m-qx-9hy">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NP7-1D-uSY" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6aa-9O-HaN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="gln-Ws-tCE"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="maD-Zv-ny7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="819" y="-66"/>
-        </scene>
     </scenes>
     <resources>
+        <image name="avatar.png" width="120" height="120"/>
         <image name="login.png" width="240" height="36"/>
         <image name="regist.png" width="240" height="36"/>
     </resources>

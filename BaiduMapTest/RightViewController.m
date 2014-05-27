@@ -41,6 +41,7 @@
 -(void)initTable{
     
     self.title = @"朋友列表";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
     _cellList  = [[NSMutableArray alloc] initWithCapacity:10];
     _forbiddenList  = [[NSMutableArray alloc] initWithCapacity:10];
     [self.view setBackgroundColor:[UIColor orangeColor]];
@@ -60,21 +61,14 @@
  
     // 初始化searchbar
     self.searchBar =[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0,  0, 44)];
-    
+ //   _searchBar.tintColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]];
+    _searchBar.tintColor = [UIColor lightGrayColor];
     self.searchBar.placeholder = @"搜索";
     self.searchBar.delegate = self;
     [_searchBar setShowsCancelButton:NO animated:YES];
     [self.searchBar sizeToFit];
-//    self.strongSearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
-//    self.searchDisplayController.searchResultsDataSource = self;
-//    self.searchDisplayController.searchResultsDelegate = self;
-//    self.searchDisplayController.delegate = self;
-    
- 
     self.myTable.tableHeaderView = self.searchBar;
-    
     self.myTable.contentOffset = CGPointMake(0, CGRectGetHeight(self.searchBar.bounds));
-    
     [self.view addSubview:_myTable];
     
     
@@ -82,8 +76,34 @@
         [self.navigationController.navigationBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]]];
     }
     
+    // 导航栏左侧按钮设置
+    UIImage* add = [UIImage imageNamed:@"plus.png"];
+    UIButton* add_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [add_btn setImage:add forState:UIControlStateNormal];
+    [add_btn setFrame:CGRectMake(0, 0, 25, 25)];
+    UIBarButtonItem* add_group = [[UIBarButtonItem alloc] initWithCustomView:add_btn];
+    self.navigationItem.leftBarButtonItems = @[add_group];
+    
+
+    UIImage* setImage = [UIImage imageNamed:@"2.png"];
+    UIButton* set_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [set_btn setImage:setImage forState:UIControlStateNormal];
+    [set_btn setFrame:CGRectMake(0, 0, 25, 25)];
+    UIBarButtonItem* set = [[UIBarButtonItem alloc] initWithCustomView:set_btn];
+    self.navigationItem.rightBarButtonItems = @[set];
+    [set_btn handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
+        SettingViewController* set = [[SettingViewController alloc] init];
+        UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:set];
+        [self presentViewController:nav animated:YES completion:nil];
+    }];
     
     
+    
+//    UIBarButtonItem* set = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(addGroup)];
+//    [set setTintColor:[UIColor whiteColor]];
+//    
+//    self.navigationItem.rightBarButtonItems = @[set];
+    /*
     // 倒数第二个按钮
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSString* user_id = [user objectForKey:@"id"];
@@ -99,7 +119,13 @@
     }else{
         
     }
+     */
 }
+
+-(void)addGroup{
+    
+}
+
 
 
 // 点击隐藏（打开）按钮触发事件
@@ -268,6 +294,33 @@
 
 #pragma mark - UITableViewDataSouce
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectio{
+    UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 25)];
+    [view setBackgroundColor:[UIColor lightGrayColor]];
+    UILabel* label1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 70, 20)];
+    label1.text = @"好友列表";
+    label1.backgroundColor = [UIColor clearColor];
+    label1.font = [UIFont systemFontOfSize:14];
+    [view addSubview:label1];
+    
+    UILabel* label3 = [[UILabel alloc] initWithFrame:CGRectMake(122, 2, 60, 20)];
+    label3.text = @"显示他";
+    label3.backgroundColor = [UIColor clearColor];
+
+    label3.font =  [UIFont systemFontOfSize:14];
+    [view addSubview:label3];
+    
+    
+    UILabel* label2 = [[UILabel alloc] initWithFrame:CGRectMake(view.bounds.size.width-75, 2, 60, 20)];
+    label2.text = @"对他隐身";
+    label2.backgroundColor = [UIColor clearColor];
+
+    label2.font = [UIFont systemFontOfSize:14];
+    [view addSubview:label2];
+    
+    return view;
+}
+
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -287,34 +340,40 @@
     cell.name.text =friendName ;// cell 的朋友的名字
     
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-    NSString* myid = [user objectForKey:@"id"];
-  //  NSInteger index = indexPath.row;
-    NSString* str = [_friendIDs objectAtIndex:indexPath.row];
-    if ([_fobiddenInMyItem rangeOfString:str].location == NSNotFound) {
+    NSString* myid = [user objectForKey:@"id"]; // 我的ID
+    NSInteger index = indexPath.row;
+    NSString* friendID = [_friendIDs objectAtIndex:index];
+    
+    // _fobiddenInMyItem数据表最后一个字段,friendID每行好友的ID
+    // 看此cell是否用阴影覆盖
+    if ([_fobiddenInMyItem rangeOfString:friendID].location == NSNotFound) {
         cell.backgroundColor = [ UIColor clearColor];
     }
     else{
         cell.backgroundColor = [UIColor lightGrayColor];
-        [cell.state setOn:NO];
-        [cell.state setEnabled:NO];
+        [cell.appear_on_map_switch setOn:NO];
+        [cell.appear_on_map_switch setEnabled:NO];
         [cell.onlyAppear setEnabled:NO];
         
     }
    
     
     if ([[user objectForKey:friendName] isEqualToString:@"YES"]) {
-        [cell.state setOn:YES];
-        cell.appear.text = @"显示";
+        [cell.appear_on_map_switch setOn:YES];
+      //  cell.appear_on_map_switch.onText = @"地图上显示";
+      
     }else{
-        [cell.state setOn:NO];
-        cell.appear.text  = @"隐藏";
+        [cell.appear_on_map_switch setOn:NO];
+      //  cell.appear_on_map_switch.onText = @"地图上隐藏";
+
+       
     }
    
     [_cellList addObject:cell];// 所有cell添加到数组中
      
-    cell.state.tag = indexPath.row;  // 给每行设置tag值，第0行的tag为0
+    cell.appear_on_map_switch.tag = indexPath.row;  // 给每行设置tag值，第0行的tag为0
   
-    [cell.state handleControlEvent:UIControlEventValueChanged withBlock:^(id sender) {
+    [cell.appear_on_map_switch handleControlEvent:UIControlEventValueChanged withBlock:^(id sender) {
         UISwitch* switchControl = sender;
         
         MapPoint* map = [[ MapPoint alloc] init];
@@ -326,13 +385,13 @@
         
         
         if(switchControl.on ){
-            cell.appear.text = @"显示";
+         
             [user setValue:@"YES" forKey:map.title];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"add" object:self userInfo:userinfo];
         }
         else {
             [user setValue:@"NO" forKey:map.title];
-             cell.appear.text = @"隐藏";
+         
             [[NSNotificationCenter defaultCenter] postNotificationName:@"remove" object:self userInfo:userinfo];
         }
 
@@ -350,13 +409,13 @@
         
         for (MyCell* item in _cellList) {
             [item.state setOn:NO];// 列表中的显示
-             cell.appear.text = @"隐藏";
+         
             [user setValue:@"NO" forKey:item.name.text]; // 保存起来
              NSDictionary* userinfo = [NSDictionary dictionaryWithObject:item.name.text forKey:@"name"];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"remove" object:self userInfo:userinfo];// 地图中的显示
         }
         [cell.state setOn:YES];
-         cell.appear.text = @"显示";
+     
         [user setValue:@"YES" forKey:cell.name.text];
      
          NSDictionary* userinfo = [NSDictionary dictionaryWithObject:cell.name.text forKey:@"name"];
@@ -376,7 +435,74 @@
     }];
   
     NSString* forbidden =[_forbiddenList objectAtIndex:indexPath.row];
-    NSLog(@"我的名字：%@,字符串%@",myid,forbidden);
+    NSLog(@"我的ID：%@,字符串%@",myid,forbidden);
+    if ([forbidden rangeOfString:myid].location == NSNotFound) {// 说明看得见
+        [cell.hide_me_to_him setOn:YES];
+    }else{
+        [cell.hide_me_to_him setOn:NO];
+    }
+    [cell.hide_me_to_him handleControlEvent:UIControlEventValueChanged withBlock:^(id sender) {
+        if (cell.hide_me_to_him.on) {
+            
+        }
+        if (!cell.hide_me_to_him.on) {
+            
+            // 去设置不可见（上传“朋友的名字”）
+            NSString* url = [[NSString stringWithFormat:@"%@%@&forbidden=%@",FORBIDDEN,[user objectForKey:@"id"],friendName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
+            ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url] ];
+            _forbiddenRequest  = request ;
+            [_forbiddenRequest startAsynchronous];
+            
+            [_forbiddenRequest setCompletionBlock:^{
+                if ([[_forbiddenRequest responseString] isEqualToString:@"1"]) {
+                    [cell.forbidden setTitle:VISIBLE forState:UIControlStateNormal];
+                    [cell.forbidden setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"他看不见你了" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alert show];
+                    
+                }
+                else{
+                    [ProgressHUD showError:@"操作失败"];
+                }
+            }];
+            [_forbiddenRequest setFailedBlock:^{
+                [ProgressHUD showError:@"请检查网络"];
+            }];
+            
+        }
+        else{
+            
+            // 去设置可见
+            NSString* url = [[NSString stringWithFormat:@"%@%@&forbidden=%@",RM_FORBIDDEN,[user objectForKey:@"id"],friendName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            
+            ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+            _rm_forbiddenRequest = request;
+            [_rm_forbiddenRequest startAsynchronous];
+            
+            [_rm_forbiddenRequest setCompletionBlock:^{
+                NSLog(@"%@",[_rm_forbiddenRequest responseString]);
+                if ([[_rm_forbiddenRequest responseString] isEqualToString:@"1"]) {
+                    [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
+                    [cell.forbidden setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+                    
+                    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"他能看见你了" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alert show];
+                    
+                }
+                else{
+                    [ProgressHUD showError:@"操作失败"];
+                }
+            }];
+            [_rm_forbiddenRequest setFailedBlock:^{
+                [ProgressHUD showError:@"请检查网络"];
+            }];
+            
+            
+        }
+
+    }];
+    /*
     if ([forbidden rangeOfString:myid].location == NSNotFound) {// 说明看得见
         [cell.forbidden setTitle:UNVISIBLE forState:UIControlStateNormal];
         [cell.forbidden setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
@@ -445,17 +571,86 @@
             
         }
     }];
-    
+    */
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [_searchBar resignFirstResponder];
+    //
+    
+    /*
+    NSInteger index = indexPath.row;
+    NSString* friendID = [_friendIDs objectAtIndex:index];
+    
+    // _fobiddenInMyItem数据表最后一个字段,friendID每行好友的ID
+    // 看此cell是否用阴影覆盖
+    if ([_fobiddenInMyItem rangeOfString:friendID].location == NSNotFound) {
+        cell.backgroundColor = [ UIColor clearColor];
+    }
+    else{
+        cell.backgroundColor = [UIColor lightGrayColor];
+        [cell.appear_on_map_switch setOn:NO];
+        [cell.appear_on_map_switch setEnabled:NO];
+        [cell.onlyAppear setEnabled:NO];
+        
+    }
+     */
+
+    
+    // 遍历数组，将所有开关关闭。
+    MapPoint* mmp = [[MapPoint alloc] init];
+    mmp = [_list objectAtIndex:indexPath.row];
+    if (mmp.coordinate.latitude <=-1 || mmp.coordinate.longitude <= -1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"暂无此人位置信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+    }else{
+    NSLog(@"%f",mmp.coordinate.latitude);
+    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+    [user setValue:mmp.title forKey:@"one_name"];
+    [user setValue:[NSString stringWithFormat:@"%f", mmp.coordinate.latitude] forKey:@"one_la"];
+    [user setValue:[NSString stringWithFormat:@"%f",mmp.coordinate.longitude] forKey:@"one_lo"];
+ 
+    
+    for (MyCell* item in _cellList) {
+        [item.state setOn:NO];// 列表中的显示
+        
+        [user setValue:@"NO" forKey:item.name.text]; // 保存起来
+        NSDictionary* userinfo = [NSDictionary dictionaryWithObject:item.name.text forKey:@"name"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"remove" object:self userInfo:userinfo];// 地图中的显示
+    }
+    
+    MyCell* cell = [[MyCell alloc] init];
+    cell = [_cellList objectAtIndex:indexPath.row];
+  
+    
+    [  cell.state setOn:YES];
+    
+   [user setValue:@"YES" forKey:cell.name.text];
+    
+    NSDictionary* userinfo = [NSDictionary dictionaryWithObject:cell.name.text forKey:@"name"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"add" object:self userInfo:userinfo];// 地图中的显示
+    [_searchBar resignFirstResponder];
+    // 隐藏右边视图
+    UIStoryboard* sb  = nil;
+    if (IS_IPAD)
+        sb = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+    else if(IS_IPHONE)
+        sb = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+    
+    ViewController* view = [sb instantiateViewControllerWithIdentifier:@"map"];
+    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:view];
+    [self.mm_drawerController setCenterViewController:nav withCloseAnimation:YES completion:nil];
+    }
+    
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 80.0;
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [_searchBar resignFirstResponder];
 }
 
 #pragma mark - UISearchBarDelegate

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ZJSwitch.h"
 @interface MyCell : UITableViewCell
 
 @property(strong,nonatomic) IBOutlet UILabel* name;
@@ -18,7 +18,12 @@
 
 @property(strong,nonatomic) IBOutlet UIButton* forbidden;
 
-@property(strong,nonatomic) IBOutlet UILabel* appear;
+@property(strong,nonatomic) IBOutlet ZJSwitch* appear_on_map_switch;
 
+@property(strong,nonatomic) IBOutlet ZJSwitch* hide_me_to_him;
+
+
+
+@property(strong,nonatomic) IBOutlet UIImageView* portrait;
 
 @end

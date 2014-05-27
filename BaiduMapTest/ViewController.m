@@ -62,6 +62,17 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     
 }
 
+
+// 是否wifi
+- (BOOL) IsEnableWIFI{
+    return([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] != NotReachable);
+}
+// 是否3G
+- (BOOL) IsEnable3G{
+    return([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable);
+}
+
+// 地图上的按钮
 -(void)initButtonOnMap
 {
     UIButton* gps_btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -86,7 +97,15 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
             [_mapView setShowsUserLocation:YES];
             
             [_mapView setRegion:theRegion animated:YES];
-            [_mapView setCenterCoordinate:_manager.location.coordinate animated:YES];
+            // 这里是不是不准确  判断一下
+            if ([self IsEnableWIFI]) { // wifi
+                 [_mapView setCenterCoordinate: _manager.location.coordinate animated:YES];
+            }
+            else{ // 3g
+                 [_mapView setCenterCoordinate:[self hhTrans_bdGPS:_manager.location.coordinate] animated:YES];
+            }
+            
+           // [_mapView setCenterCoordinate:[self hhTrans_bdGPS:_manager.location.coordinate] animated:YES];
             [ProgressHUD showSuccess:@"定位成功"];
         }
         else{
@@ -132,14 +151,11 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 
 // 初始化地图
 -(void)initMap{
-    
- 
     _zoom_level = 1;
      self.title = @"朋友定位";
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setTintColor:)]) {
          [self.navigationController.navigationBar setTintColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"nav.png"]]];
-        
     }
     _list = [[NSMutableArray alloc] initWithCapacity:10];
     _forbiddenList = [[NSMutableArray alloc] initWithCapacity:10];
@@ -159,15 +175,15 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
    
     [self initButtonOnMap];// 地图上 的按钮
     
-    [self addAnnos]; // 添加所有标注
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"id"]) {
+         [self addAnnos]; // 添加所有标注
+        [self setupRightMenuButton];  // 显示导航栏右侧按钮
+    }
     
-    [self setupRightMenuButton];  // 显示导航栏右侧按钮
     
-      [self showUserLocation];  //zoom到四环效果
-    
+    [self showUserLocation];  //zoom到四环效果
     
     [NSThread detachNewThreadSelector:@selector(loadGPS) toTarget:self withObject:nil];
-
     
 }
 
@@ -176,7 +192,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 {
 
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-        
+    NSLog(@"%@",[user objectForKey:@"one_la"]);
     if ([user objectForKey:@"one_la"]) {
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([[user objectForKey:@"one_la"] doubleValue],[[user objectForKey:@"one_lo"] doubleValue]);
         MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
@@ -213,14 +229,13 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+     [self.navigationController.navigationBar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeAnno:) name:@"remove" object:nil];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addAnno:) name:@"add" object:nil];
     
-    
-    
     [self initMap]; // 初始化地图
-    
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
 }
 
@@ -250,9 +265,6 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     NSLog(@"region changed");
 }
-
-
-
 
 
 #pragma mark - 自己定义的方法
@@ -289,7 +301,15 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
             // if an existing pin view was not available, create one
             MKPinAnnotationView* customPinView = [[MKPinAnnotationView alloc]
                                                   initWithAnnotation:annotation reuseIdentifier:MapPointAnnoationIdentifer];
+           // one_la
+            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"one_name"] isEqualToString:annotation.title]) {
+              //  customPinView.pinColor = MKPinAnnotationColorRed;
+                customPinView.pinColor = MKPinAnnotationColorRed;
+
+            }else{
             customPinView.pinColor = MKPinAnnotationColorPurple;
+            
+            }
             customPinView.animatesDrop = YES;
             customPinView.canShowCallout = YES;
            // NSLog(@"副标题%@",[annotation subtitle]);
@@ -305,7 +325,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
                 name.textColor = [UIColor whiteColor];
                 [contentView addSubview:name];
                 
-                UILabel* location = [[UILabel alloc] initWithFrame:CGRectMake(30, 50, contentView.bounds.size.width, 44)];
+                UILabel* location = [[UILabel alloc] initWithFrame:CGRectMake(30, 45, contentView.bounds.size.width,44)];
                 location.font = [UIFont systemFontOfSize:16];
                 location.textColor = [UIColor whiteColor];
                 location.text = @"中关村东路66号";
@@ -314,7 +334,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
                 
                 UIButton* chat_btn = [UIButton buttonWithType:UIButtonTypeSystem];
                 [chat_btn setFrame:CGRectMake(20, 100, 60, 44)];
-                //[chat_btn setImage:[UIImage imageNamed:@"tracebg.png"] forState:UIControlStateNormal];
+                
                 [chat_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [chat_btn setTitle:@"对话" forState:UIControlStateNormal];
                 [contentView addSubview:chat_btn];
@@ -331,6 +351,17 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
                 [road_btn setTitle:@"路径" forState:UIControlStateNormal];
                 [contentView addSubview:road_btn];
                 
+                UIButton* send_my_location =[UIButton buttonWithType:UIButtonTypeSystem];
+                [send_my_location setFrame:CGRectMake(20, 155, 100, 44)];
+                [send_my_location setTitle:@"发送我的位置" forState:UIControlStateNormal];
+                [send_my_location setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [contentView addSubview:send_my_location];
+                
+                UIButton* hide_me =[UIButton buttonWithType:UIButtonTypeSystem];
+                [hide_me setFrame:CGRectMake(140, 155, 60, 44)];
+                [hide_me setTitle:@"对他隐身" forState:UIControlStateNormal];
+                [hide_me setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [contentView addSubview:hide_me];
                 
                 [[KGModal sharedInstance] showWithContentView:contentView andAnimated:YES];
 
@@ -381,40 +412,17 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
    
 }
 
-/*
-#pragma mark - CLLocationManagerDelegate
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-   
-    //当前的位置
-    CLLocation* newLocation = [locations lastObject];
-    NSLog(@"GPS：%f",newLocation.coordinate.latitude);
-    
-    _manager = manager;
-    
-    CLLocationCoordinate2D lo = CLLocationCoordinate2DMake(newLocation.coordinate.latitude, newLocation.coordinate.longitude);
-   
-    lo = [self hhTrans_bdGPS:lo];
-    NSLog(@"2后%f",lo.latitude);
-    NSString* str1 = [NSString stringWithFormat:@"%f",lo.latitude];
-    NSString* str2 = [NSString stringWithFormat:@"%f",lo.longitude];
-   
-     // 上传坐标  （这里会与正常GPS坐标不同）
-    [self uploadGPSWith_latitude:str1 longitude:str2];
-    
-    
-   
-}
- */
+
 
 //定位失败
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     NSLog(@"定位失败");
-    
-        CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(39.915352,116.397105);
+    [ProgressHUD showError:@"定位失败"];
+    CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(39.915352,116.397105);
         
-        float zoomLevel = 0.2;
-        MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
-        [_mapView setRegion:[_mapView regionThatFits:region] animated:YES];
+    float zoomLevel = 0.2;
+    MKCoordinateRegion region = MKCoordinateRegionMake(coords, MKCoordinateSpanMake(zoomLevel, zoomLevel));
+    [_mapView setRegion:[_mapView regionThatFits:region] animated:YES];
    
     
 }
@@ -425,8 +433,6 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 #pragma mark  - rotate
 -(NSUInteger)supportedInterfaceOrientations
@@ -439,22 +445,29 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     return YES;
 }
 
-// 导航栏右侧按钮触发的事件
--(void)back{
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
-    /*
-    UIStoryboard* sbd = nil;
-    if (IS_IPHONE) {
-        sbd  = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+#pragma mark - BASE FUNCTION
+
+// 导航栏左侧按钮触发的事件
+-(void)leftButtonEvent:(UIBarButtonItem*)sender{
+   //
+    if ([sender.title isEqualToString:@"登录"]) {
+        NSLog(@"登录");
+        UIStoryboard* sbd = nil;
+        if (IS_IPHONE) {
+            sbd  = [UIStoryboard storyboardWithName:@"Main_iPhone" bundle:nil];
+        }
+        if (IS_IPAD) {
+            sbd = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
+        }
+        LoginViewController* login = [sbd instantiateViewControllerWithIdentifier:@"login"];
+        UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:login];
+        
+        [self presentViewController:nav animated:YES completion:nil];
+    }else{
+        NSLog(@"设置");
+        [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
     }
-    if (IS_IPAD) {
-        sbd = [UIStoryboard storyboardWithName:@"Main_iPad" bundle:nil];
-    }
-    LoginViewController* login = [sbd instantiateViewControllerWithIdentifier:@"login"];
-    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:login];
-    
-    [self presentViewController:nav animated:YES completion:nil];
-     */
+  
 }
 
 
@@ -462,21 +475,48 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
 -(void)setupRightMenuButton{
     
     // 导航栏左侧按钮设置
-    UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
-    [f setTintColor:[UIColor blackColor]];
+    // 判断是否登录，如果没有登录，按钮标题为“登录”，如果登录了，按钮标题为“设置”
+    NSString* left_bar_button_titile = nil;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"id"]) {
+        left_bar_button_titile = @"设置";
+        UIButton* rentou_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rentou_btn setImage:[UIImage imageNamed:@"rentou.png"] forState:UIControlStateNormal];
+        [rentou_btn setFrame:CGRectMake(0, 0, 40, 40)];
+        UIBarButtonItem* bar_button = [[UIBarButtonItem alloc] initWithCustomView:rentou_btn];
+        self.navigationItem.leftBarButtonItems = @[bar_button];
+        [rentou_btn handleControlEvent:UIControlEventTouchUpInside withBlock:^(id sender) {
+            [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+        }];
+        // 最右侧按钮
+        MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
+        [rightDrawerButton setMenuButtonColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+        
+        // 倒数第三个按钮
+        UIButton* refresh_btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [refresh_btn setImage:[UIImage imageNamed:@"refresh.png"] forState:UIControlStateNormal];
+        [refresh_btn setFrame:CGRectMake(0, 0, 25, 25)];
+        UIBarButtonItem* ref = [[UIBarButtonItem alloc] initWithCustomView:refresh_btn];
+        [refresh_btn addTarget:self action:@selector(refresh) forControlEvents:UIControlEventTouchUpInside];
+        
+//        UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(refresh)];
+//        [refresh setTintColor:[UIColor whiteColor]];
+        [self.navigationItem setRightBarButtonItems:@[rightDrawerButton,ref] animated:YES];
+        
+  //   UIModalTransitionStyleFlipHorizontal
+        
+    }
+    else{
+        left_bar_button_titile = @"登录";
+        UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:left_bar_button_titile style:UIBarButtonItemStyleBordered target:self action:@selector(leftButtonEvent:)];
+        [f setTintColor:[UIColor whiteColor]];
+        
+        self.navigationItem.leftBarButtonItems = @[f];
+        
+
+    }
+   
     
-    self.navigationItem.leftBarButtonItems = @[f];
-    
-    // 最右侧按钮
-    MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
-    [rightDrawerButton setMenuButtonColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
-    
-    // 倒数第三个按钮
-    UIBarButtonItem* refresh = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleBordered target:self action:@selector(refresh)];
-    [refresh setTintColor:[UIColor blackColor]];
-    
-    [self.navigationItem setRightBarButtonItems:@[rightDrawerButton,refresh] animated:YES];
     
     
 }
@@ -540,7 +580,7 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     NSString* myname = [userD objectForKey:@"currentPerson"];
     NSString* myid = [userD objectForKey:@"id"];
     
-    ASIFormDataRequest* req = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:[ALL_LOCATION stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    ASIFormDataRequest* req = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:ALL_LOCATION  ]];
     _all_location_request = req;
     [_all_location_request startAsynchronous];
     
@@ -551,23 +591,23 @@ const double x_pi = 3.14159265358979324 * 3000.0 / 180.0;
         NSArray* list = [sb objectWithString:str];
         NSMutableArray* annoArray = [[NSMutableArray alloc] initWithCapacity:0];
         
-        NSString* all_forbidden = nil; // |zhaojian|字符串
+        NSString* all_forbidden = nil; // |zhaojian|字符串（我那条数据的forbidden字段）
         
         if (list) {
             for (id item in list) {
                 if ([[item objectForKey:@"user_id"] isEqualToString:myid]) { // 查看我那条数据，是否有人不让我看见
-                    NSLog(@"%@",[item objectForKey:@"forbidden"]);
+                    
                     all_forbidden =[item objectForKey:@"forbidden"];
                     _fobiddenInMyItem = all_forbidden;
                     break;
                 }
             }
         }
-        
+        NSLog(@"%@",_fobiddenInMyItem);
         
         // 遍历list
         if (list) {
-            
+            NSLog(@"%d",list.count);
             for (id item in list) {
                 
                 NSString* name = [item objectForKey:@"name"];

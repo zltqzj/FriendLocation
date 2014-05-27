@@ -12,6 +12,7 @@
 #import "ViewController.h"
 #import "MMExampleSideDrawerViewController.h"
 #import "NameIndex.h"
+#import "SettingViewController.h"
 @interface RightViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
 
 

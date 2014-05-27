@@ -82,7 +82,7 @@
 
 #define VISIBLE @"可见我的位置"
 #define UNVISIBLE @"不可见我的位置"
-
+#define IS_LOGIN @"is_login"
 
 
 

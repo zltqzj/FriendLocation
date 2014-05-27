@@ -41,7 +41,7 @@
             
         }];
     }
-    else if([_textfield.text rangeOfString:@"|"].location  || [_textfield.text rangeOfString:@" "].location ){
+    else if([_textfield.text rangeOfString:@"|"].location!=NSNotFound  && [_textfield.text rangeOfString:@" "].location!=NSNotFound ){
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"输入格式不正确" message:@"不能输入‘|’或空格" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert showWithCompletionHandler:^(NSInteger buttonIndex) {
             if (buttonIndex ==0) {
@@ -67,8 +67,7 @@
                 
             
             NSUserDefaults* currentPerson = [NSUserDefaults standardUserDefaults];
-             //   [ProgressHUD dismiss];
-            
+                          
             NSLog(@"注册返回值：%@",[_regist_request responseString]);
             NSData* response1 = [_regist_request responseData];
             NSString* response = [[NSString alloc] initWithBytes:[response1 bytes]length:[response1 length]encoding:NSUTF8StringEncoding];
@@ -107,11 +106,11 @@
     _textfield.delegate = self;
     _textfield.clearButtonMode = UITextFieldViewModeAlways;
     
-
+ [self.navigationController.navigationBar setTitleTextAttributes:@{UITextAttributeTextColor : [UIColor whiteColor]}];
     self.title = @"注册";
     // 导航栏左侧按钮
     UIBarButtonItem* f = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleBordered target:self action:@selector(back:)];
-    [f setTintColor:[UIColor blackColor]];
+    [f setTintColor:[UIColor whiteColor]];
     
     self.navigationItem.leftBarButtonItems = @[f];
     

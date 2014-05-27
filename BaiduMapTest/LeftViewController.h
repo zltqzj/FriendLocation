@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ViewController.h"
+#import "LoginViewController.h"
 @interface LeftViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property(strong,nonatomic) NSMutableArray* list;
 
 @property(strong,nonatomic)UITableView* myTable;
+
+@property(strong,nonatomic) UIImageView* portrait;
+
 
 @end

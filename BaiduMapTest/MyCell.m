@@ -13,7 +13,9 @@
 @synthesize state = _state;
 @synthesize onlyAppear = _onlyAppear;
 @synthesize forbidden = _forbidden;
-@synthesize appear = _appear;
+@synthesize appear_on_map_switch = _appear_on_map_switch;
+@synthesize hide_me_to_him = _hide_me_to_him;
+@synthesize portrait = _portrait;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
